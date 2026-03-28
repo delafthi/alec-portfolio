@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404" lang="de">
+  <div class="flex flex-col items-center justify-center px-6 py-32 text-center">
+    <h1 class="text-7xl font-light mb-6">404</h1>
+    <p id="msg-de" class="text-lg mb-8" style="color: var(--color-accent);">
+      Diese Seite wurde nicht gefunden.
+    </p>
+    <p id="msg-en" class="text-lg mb-8" style="color: var(--color-accent); display: none;">
+      This page was not found.
+    </p>
+    <a
+      id="link-home"
+      href="/de/"
+      class="px-6 py-2 text-sm transition-opacity hover:opacity-70"
+      style="background: var(--color-foreground); color: var(--color-background);"
+    >
+      Startseite
+    </a>
+  </div>
+
+  <script>
+    const isDE = navigator.language.startsWith('de');
+    if (!isDE) {
+      document.getElementById('msg-de')!.style.display = 'none';
+      document.getElementById('msg-en')!.style.display = '';
+      const link = document.getElementById('link-home') as HTMLAnchorElement;
+      link.href = '/en/';
+      link.textContent = 'Home';
+      document.documentElement.lang = 'en';
+    }
+  </script>
+</BaseLayout>

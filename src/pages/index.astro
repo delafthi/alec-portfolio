@@ -1,0 +1,25 @@
+---
+// Root page: handles Netlify Identity hash tokens before language redirect.
+// Server-side redirect would strip the hash fragment, breaking invite/recovery flows.
+// Identity tokens are forwarded to /admin/ where Decap CMS handles them natively.
+---
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ALEC</title>
+  </head>
+  <body>
+    <script>
+      const hash = window.location.hash;
+      const identityTokens = ['invite_token', 'confirmation_token', 'recovery_token', 'access_token'];
+      const hasIdentityToken = identityTokens.some((t) => hash.includes(t));
+      if (hasIdentityToken) {
+        window.location.replace('/admin/' + hash);
+      } else {
+        const lang = navigator.language.startsWith('de') ? 'de' : 'en';
+        window.location.replace('/' + lang + '/');
+      }
+    </script>
+  </body>
+</html>

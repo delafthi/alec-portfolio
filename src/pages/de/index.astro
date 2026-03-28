@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import ExhibitionTeaser from "../../components/ExhibitionTeaser.astro";
+import LandingHero from "../../components/LandingHero.astro";
+import { ui } from "../../i18n/ui";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const lang = "de";
+const t = ui[lang];
+
+const allArtworks = await getCollection("artworks-de");
+const featured = allArtworks
+  .filter((a) => a.data.featured)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const allExhibitions = await getCollection("exhibitions-de");
+const now = new Date();
+const upcoming = allExhibitions
+  .filter((ex) => ex.data.date_end >= now)
+  .sort((a, b) => a.data.date_start.getTime() - b.data.date_start.getTime());
+---
+
+<BaseLayout title="Malerei" lang={lang} description={t['meta.description']}>
+  <LandingHero artworks={featured} detailBasePath="/de/bild" />
+
+  <div class="px-6 md:px-12 py-8 text-center">
+    <a
+      href="/de/portfolio"
+      class="text-sm underline underline-offset-4 hover:opacity-70 transition-opacity"
+      style="color: var(--color-accent);"
+    >
+      {t['landing.all_works']} →
+    </a>
+  </div>
+
+  <ExhibitionTeaser exhibitions={upcoming} lang={lang} exhibitionsPath="/de/ausstellungen" />
+</BaseLayout>

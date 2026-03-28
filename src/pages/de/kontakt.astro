@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import ContactForm from "../../components/ContactForm.astro";
+import { ui } from "../../i18n/ui";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const lang = "de";
+const t = ui[lang];
+
+const settings = await getCollection("settings");
+const contact = settings.find((s) => s.id === "contact");
+const email = contact?.data.email ?? "";
+---
+
+<BaseLayout title={t['contact.title']} lang={lang}>
+  <div class="px-6 md:px-12 pt-16 pb-0">
+    <h1 class="text-5xl font-light mb-0 text-center">
+      {t['contact.title']}
+    </h1>
+  </div>
+  <ContactForm lang={lang} email={email} />
+</BaseLayout>

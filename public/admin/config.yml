@@ -1,0 +1,138 @@
+backend:
+  name: git-gateway
+  repo: delafthi/alec-portfolio
+  branch: main
+  commit_messages:
+    create: "feat(content): add {{collection}} \"{{slug}}\""
+    update: "fix(content): update {{collection}} \"{{slug}}\""
+    delete: "chore(content): remove {{collection}} \"{{slug}}\""
+    uploadMedia: "chore(assets): upload \"{{path}}\""
+    deleteMedia: "chore(assets): delete \"{{path}}\""
+publish_mode: editorial_workflow
+media_folder: public/images
+public_folder: /images
+locale: de
+collections:
+  - name: artworks_de
+    label: Kunstwerke (DE)
+    label_singular: Kunstwerk (DE)
+    folder: src/content/artworks/de
+    create: true
+    slug: "{{fields.slug}}"
+    fields:
+      - {label: Slug, name: slug, widget: string, hint: "Gleich wie in der EN-Version verwenden"}
+      - {label: Titel, name: title, widget: string}
+      - label: Kategorie
+        name: category
+        widget: select
+        options:
+          - {label: Landschaften, value: landschaften}
+          - {label: Portraits, value: portraits}
+          - {label: Tiere, value: tiere}
+          - {label: Akt, value: akt}
+          - {label: Diverse, value: diverse}
+      - {label: Datum, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false}
+      - {label: Größe, name: size, widget: string, hint: "z.B. 80 × 60 cm"}
+      - {label: Materialien, name: materials, widget: string, hint: "z.B. Öl auf Leinwand"}
+      - {label: Bemerkungen, name: notes, widget: string, required: false, hint: "z.B. mit Rahmen"}
+      - label: Verfügbarkeit
+        name: availability
+        widget: select
+        options:
+          - {label: Verfügbar, value: available}
+          - {label: Verkauft, value: sold}
+          - {label: Nicht käuflich, value: not_for_sale}
+      - {label: Bild, name: image, widget: image}
+      - {label: Startseite, name: featured, widget: boolean, default: false}
+  - name: artworks_en
+    label: Artworks (EN)
+    label_singular: Artwork (EN)
+    folder: src/content/artworks/en
+    create: true
+    slug: "{{fields.slug}}"
+    fields:
+      - {label: Slug, name: slug, widget: string, hint: "Use same slug as DE version"}
+      - {label: Title, name: title, widget: string}
+      - label: Category
+        name: category
+        widget: select
+        options:
+          - {label: Landscapes, value: landschaften}
+          - {label: Portraits, value: portraits}
+          - {label: Animals, value: tiere}
+          - {label: Nude, value: akt}
+          - {label: Various, value: diverse}
+      - {label: Date, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+      - {label: Size, name: size, widget: string, hint: "e.g. 80 × 60 cm"}
+      - {label: Materials, name: materials, widget: string, hint: "e.g. Oil on canvas"}
+      - {label: Notes, name: notes, widget: string, required: false, hint: "e.g. with frame"}
+      - label: Availability
+        name: availability
+        widget: select
+        options:
+          - {label: Available, value: available}
+          - {label: Sold, value: sold}
+          - {label: Not for sale, value: not_for_sale}
+      - {label: Image, name: image, widget: image}
+      - {label: Featured, name: featured, widget: boolean, default: false}
+  - name: exhibitions_de
+    label: Ausstellungen (DE)
+    label_singular: Ausstellung (DE)
+    folder: src/content/exhibitions/de
+    create: true
+    fields:
+      - {label: Titel, name: title, widget: string}
+      - {label: Galerie / Ort, name: venue, widget: string}
+      - {label: Stadt, name: city, widget: string}
+      - {label: Beginn, name: date_start, widget: datetime, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false}
+      - {label: Ende, name: date_end, widget: datetime, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false}
+      - label: Typ
+        name: type
+        widget: select
+        options:
+          - {label: Einzelausstellung, value: solo}
+          - {label: Gruppenausstellung, value: gruppe}
+      - {label: Link (optional), name: url, widget: string, required: false}
+      - {label: Beschreibung (optional), name: description, widget: text, required: false}
+  - name: exhibitions_en
+    label: Exhibitions (EN)
+    label_singular: Exhibition (EN)
+    folder: src/content/exhibitions/en
+    create: true
+    fields:
+      - {label: Title, name: title, widget: string}
+      - {label: Venue, name: venue, widget: string}
+      - {label: City, name: city, widget: string}
+      - {label: Start date, name: date_start, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+      - {label: End date, name: date_end, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+      - label: Type
+        name: type
+        widget: select
+        options:
+          - {label: Solo exhibition, value: solo}
+          - {label: Group exhibition, value: gruppe}
+      - {label: Link (optional), name: url, widget: string, required: false}
+      - {label: Description (optional), name: description, widget: text, required: false}
+  - name: pages
+    label: Seiten / Pages
+    files:
+      - label: Über mich (DE)
+        name: about_de
+        file: src/content/pages/about-de.md
+        fields:
+          - {label: Titel, name: title, widget: string}
+          - {label: Text, name: body, widget: markdown}
+      - label: About (EN)
+        name: about_en
+        file: src/content/pages/about-en.md
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: Text, name: body, widget: markdown}
+  - name: settings
+    label: Einstellungen / Settings
+    files:
+      - label: Kontakt / Contact
+        name: contact
+        file: src/content/settings/contact.md
+        fields:
+          - {label: "Öffentliche E-Mail / Public email", name: email, widget: string}

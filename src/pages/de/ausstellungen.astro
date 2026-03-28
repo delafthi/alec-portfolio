@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import ExhibitionList from "../../components/ExhibitionList.astro";
+import { ui } from "../../i18n/ui";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const lang = "de";
+const t = ui[lang];
+
+const all = await getCollection("exhibitions-de");
+const now = new Date();
+
+const upcoming = all
+  .filter((ex) => ex.data.date_end >= now)
+  .sort((a, b) => a.data.date_start.getTime() - b.data.date_start.getTime());
+
+const past = all
+  .filter((ex) => ex.data.date_end < now)
+  .sort((a, b) => b.data.date_end.getTime() - a.data.date_end.getTime());
+---
+
+<BaseLayout title={t['nav.exhibitions']} lang={lang}>
+  <div class="px-6 md:px-12 pt-16 pb-0">
+    <h1 class="text-5xl font-light mb-0 text-center">
+      {t['nav.exhibitions']}
+    </h1>
+  </div>
+  <ExhibitionList upcoming={upcoming} past={past} lang={lang} />
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from "astro:content";
+import { ui } from "../../i18n/ui";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const lang = "en";
+const t = ui[lang];
+
+const pages = await getCollection("pages");
+const page = pages.find((p) => p.id === "about-en");
+if (!page) throw new Error("about-en not found");
+const { Content } = await render(page);
+---
+
+<BaseLayout title={t['about.title']} lang={lang}>
+  <div class="px-6 md:px-12 py-16 max-w-3xl mx-auto">
+    <div class="flex flex-col md:flex-row md:gap-12 md:items-start">
+      <div class="shrink-0 mx-auto md:mx-0 mb-8 md:mb-0">
+        <img
+          src="https://www.alecs.pictures/wp-content/webp-express/webp-images/uploads/2023/07/alec.png.webp"
+          alt="ALEC"
+          class="w-44 h-auto"
+        />
+      </div>
+      <div>
+        <h1 class="text-5xl font-light mb-8 text-center md:text-left">
+          {page.data.title}
+        </h1>
+        <div style="font-size: 1rem; line-height: 1.75;">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

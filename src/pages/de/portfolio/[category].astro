@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import ArtworkGrid from "../../../components/ArtworkGrid.astro";
+import CategoryFilter from "../../../components/CategoryFilter.astro";
+import { ui } from "../../../i18n/ui";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const categories = [
+    "landschaften",
+    "portraits",
+    "tiere",
+    "akt",
+    "diverse",
+  ] as const;
+  const all = await getCollection("artworks-de");
+  return categories.map((cat) => ({
+    params: { category: cat },
+    props: { artworks: all.filter((a) => a.data.category === cat) },
+  }));
+}
+
+const lang = "de";
+const t = ui[lang];
+const { category } = Astro.params;
+const { artworks } = Astro.props;
+
+artworks.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const categoryLabel = t[`filter.${category}` as keyof typeof t] ?? category;
+---
+
+<BaseLayout title={`${t['nav.portfolio']} — ${categoryLabel}`} lang={lang}>
+  <div class="px-6 md:px-12 py-16">
+    <h1 class="text-5xl font-light mb-10 text-center">
+      {categoryLabel}
+    </h1>
+    <CategoryFilter lang={lang} currentCategory={category} />
+    <ArtworkGrid artworks={artworks} lang={lang} detailBasePath="/de/bild" />
+  </div>
+</BaseLayout>

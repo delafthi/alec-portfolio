@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+import ArtworkGrid from "../../../components/ArtworkGrid.astro";
+import CategoryFilter from "../../../components/CategoryFilter.astro";
+import { ui } from "../../../i18n/ui";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const lang = "de";
+const t = ui[lang];
+
+const artworks = await getCollection("artworks-de");
+artworks.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title={t['nav.portfolio']} lang={lang}>
+  <div class="px-6 md:px-12 py-16">
+    <h1 class="text-5xl font-light mb-10 text-center">
+      {t['nav.portfolio']}
+    </h1>
+    <CategoryFilter lang={lang} />
+    <ArtworkGrid artworks={artworks} lang={lang} detailBasePath="/de/bild" />
+  </div>
+</BaseLayout>

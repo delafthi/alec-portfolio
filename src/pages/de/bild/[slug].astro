@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import ArtworkDetail from "../../../components/ArtworkDetail.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const artworks = await getCollection("artworks-de");
+  artworks.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const all = artworks.map((a) => ({
+    id: a.id,
+    title: a.data.title,
+    image: a.data.image,
+    url: `/de/bild/${a.id}`,
+    category: a.data.category,
+  }));
+  return artworks.map((artwork, i) => ({
+    params: { slug: artwork.id },
+    props: { artwork, currentIndex: i, allArtworks: all },
+  }));
+}
+
+const lang = "de";
+const { artwork, currentIndex, allArtworks } = Astro.props;
+const altLangUrl = `/en/artwork/${artwork.id}`;
+---
+
+<BaseLayout title={artwork.data.title} lang={lang} altLangUrl={altLangUrl} image={artwork.data.image}>
+  <ArtworkDetail
+    title={artwork.data.title}
+    image={artwork.data.image}
+    date={artwork.data.date}
+    size={artwork.data.size}
+    materials={artwork.data.materials}
+    notes={artwork.data.notes}
+    availability={artwork.data.availability}
+    lang={lang}
+    currentIndex={currentIndex}
+    allArtworks={allArtworks}
+  />
+</BaseLayout>

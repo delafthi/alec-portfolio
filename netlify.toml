@@ -1,0 +1,9 @@
+[build]
+command = "bun run build"
+publish = "dist"
+
+# Decap CMS admin SPA
+[[redirects]]
+from = "/admin/*"
+to = "/admin/index.html"
+status = 200

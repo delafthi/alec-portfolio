@@ -1,0 +1,84 @@
+---
+import type { Lang } from "../i18n/ui";
+import { ui } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  email: string;
+}
+
+const { lang, email } = Astro.props;
+const t = ui[lang];
+const successPage =
+  lang === "de" ? "/de/kontakt-danke/" : "/en/contact-thanks/";
+---
+
+<div class="max-w-xl mx-auto px-6 py-10">
+  <form
+    name="contact"
+    method="POST"
+    action={successPage}
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    class="flex flex-col gap-6"
+  >
+    <input type="hidden" name="form-name" value="contact" />
+    <p class="hidden">
+      <label>Don't fill this out: <input name="bot-field" /></label>
+    </p>
+
+    <div class="flex flex-col gap-1.5">
+      <label for="name" class="text-sm font-medium">{t['contact.name']}</label>
+      <input
+        id="name"
+        type="text"
+        name="name"
+        required
+        class="px-3 py-2 text-sm border focus:outline-none"
+        style="border-color: color-mix(in srgb, var(--color-accent) 40%, transparent); background: var(--color-background); color: var(--color-foreground);"
+      />
+    </div>
+
+    <div class="flex flex-col gap-1.5">
+      <label for="email" class="text-sm font-medium">{t['contact.email']}</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        required
+        class="px-3 py-2 text-sm border focus:outline-none"
+        style="border-color: color-mix(in srgb, var(--color-accent) 40%, transparent); background: var(--color-background); color: var(--color-foreground);"
+      />
+    </div>
+
+    <div class="flex flex-col gap-1.5">
+      <label for="message" class="text-sm font-medium">{t['contact.message']}</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="6"
+        required
+        class="px-3 py-2 text-sm border resize-y focus:outline-none"
+        style="border-color: color-mix(in srgb, var(--color-accent) 40%, transparent); background: var(--color-background); color: var(--color-foreground);"
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="self-start px-8 py-2.5 text-sm font-medium transition-opacity hover:opacity-70"
+      style="background-color: var(--color-foreground); color: var(--color-background);"
+    >
+      {t['contact.send']}
+    </button>
+  </form>
+
+  {email && (
+    <p
+      class="mt-10 pt-6 text-sm text-center"
+      style="border-top: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent); color: var(--color-accent);"
+    >
+      {t['contact.email_direct']}{' '}
+      <a href={`mailto:${email}`} class="hover:opacity-70 transition-opacity">{email}</a>
+    </p>
+  )}
+</div>

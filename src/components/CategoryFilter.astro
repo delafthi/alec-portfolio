@@ -1,0 +1,81 @@
+---
+import type { Lang } from "../i18n/ui";
+import { ui } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  currentCategory?: string;
+}
+
+const { lang, currentCategory } = Astro.props;
+const t = ui[lang];
+
+const categories = [
+  { value: "all", label: t["filter.all"] },
+  { value: "landschaften", label: t["filter.landschaften"] },
+  { value: "portraits", label: t["filter.portraits"] },
+  { value: "tiere", label: t["filter.tiere"] },
+  { value: "akt", label: t["filter.akt"] },
+  { value: "diverse", label: t["filter.diverse"] },
+];
+---
+
+<div class="flex flex-wrap justify-center gap-2 mb-10" id="category-filter" data-active={currentCategory ?? 'all'}>
+  {
+    categories.map((cat) => (
+      <button
+        data-filter={cat.value}
+        class="px-4 py-1.5 text-sm border transition-colors"
+        style="border-color: color-mix(in srgb, var(--color-accent) 40%, transparent); color: var(--color-foreground); background-color: transparent;"
+      >
+        {cat.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  const filterBar = document.getElementById('category-filter');
+  if (filterBar) {
+    function setActive(category: string) {
+      filterBar.querySelectorAll<HTMLElement>('[data-filter]').forEach((el) => {
+        const isActive = el.dataset.filter === category;
+        el.style.borderColor = isActive
+          ? 'var(--color-foreground)'
+          : 'color-mix(in srgb, var(--color-accent) 40%, transparent)';
+        el.style.backgroundColor = isActive ? 'var(--color-foreground)' : 'transparent';
+        el.style.color = isActive ? 'var(--color-background)' : 'var(--color-foreground)';
+      });
+    }
+
+    function applyFilter(category: string) {
+      setActive(category);
+
+      document.querySelectorAll<HTMLElement>('.artwork-card').forEach((card) => {
+        card.style.display = category === 'all' || card.dataset.category === category ? '' : 'none';
+      });
+
+      document.querySelectorAll<HTMLAnchorElement>('.artwork-card a').forEach((a) => {
+        const url = new URL(a.href);
+        if (category === 'all') url.searchParams.delete('category');
+        else url.searchParams.set('category', category);
+        a.href = url.toString();
+      });
+    }
+
+    const urlCategory = new URLSearchParams(location.search).get('category');
+    applyFilter(urlCategory ?? filterBar.dataset.active ?? 'all');
+
+    filterBar.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('[data-filter]') as HTMLButtonElement | null;
+      if (!btn) return;
+      const category = btn.dataset.filter ?? 'all';
+      applyFilter(category);
+
+      const url = new URL(window.location.href);
+      if (category === 'all') url.searchParams.delete('category');
+      else url.searchParams.set('category', category);
+      history.pushState({}, '', url);
+    });
+  }
+</script>

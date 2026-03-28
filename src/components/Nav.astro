@@ -1,0 +1,96 @@
+---
+import type { Lang } from "../i18n/ui";
+import { ui } from "../i18n/ui";
+import { getAlternateUrl } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+  altLangUrl?: string;
+}
+
+const { lang, altLangUrl } = Astro.props;
+const t = ui[lang];
+
+const portfolioPath = `/${lang}/portfolio`;
+const exhibitionsPath =
+  lang === "de" ? `/${lang}/ausstellungen` : `/${lang}/exhibitions`;
+const aboutPath = lang === "de" ? `/${lang}/ueber-mich` : `/${lang}/about`;
+const contactPath = lang === "de" ? `/${lang}/kontakt` : `/${lang}/contact`;
+
+const altLang = lang === "de" ? "en" : "de";
+const langToggleUrl = altLangUrl ?? getAlternateUrl(Astro.url, altLang);
+---
+
+<header
+  class="py-5 px-6 md:px-12 flex items-center justify-between"
+  style="border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);"
+>
+  <a
+    href={`/${lang}/`}
+    class="text-2xl font-light tracking-wide"
+    style="font-family: var(--font-heading);"
+  >
+    ALEC
+  </a>
+
+  <!-- Hamburger button (mobile only) -->
+  <button
+    id="nav-toggle"
+    class="md:hidden flex flex-col gap-1.5 p-1"
+    aria-label="Menu"
+    aria-expanded="false"
+    aria-controls="nav-menu"
+  >
+    <span class="block w-6 h-px transition-all duration-300" style="background: var(--color-foreground);"></span>
+    <span class="block w-6 h-px transition-all duration-300" style="background: var(--color-foreground);"></span>
+    <span class="block w-6 h-px transition-all duration-300" style="background: var(--color-foreground);"></span>
+  </button>
+
+  <!-- Nav links -->
+  <nav
+    id="nav-menu"
+    class="hidden md:flex items-center gap-6 text-sm"
+  >
+    <a href={portfolioPath} class="hover:opacity-70 transition-opacity">{t['nav.portfolio']}</a>
+    <a href={exhibitionsPath} class="hover:opacity-70 transition-opacity">{t['nav.exhibitions']}</a>
+    <a href={aboutPath} class="hover:opacity-70 transition-opacity">{t['nav.about']}</a>
+    <a href={contactPath} class="hover:opacity-70 transition-opacity">{t['nav.contact']}</a>
+    <a
+      href={langToggleUrl}
+      class="font-medium ml-2 hover:opacity-70 transition-opacity"
+      style="color: var(--color-accent);"
+    >
+      {altLang.toUpperCase()}
+    </a>
+  </nav>
+</header>
+
+<!-- Mobile menu drawer -->
+<div
+  id="nav-drawer"
+  class="flex-col gap-5 px-6 py-6 text-sm text-right"
+  style="display: none; border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent); background: var(--color-background);"
+>
+  <a href={portfolioPath} class="hover:opacity-70 transition-opacity">{t['nav.portfolio']}</a>
+  <a href={exhibitionsPath} class="hover:opacity-70 transition-opacity">{t['nav.exhibitions']}</a>
+  <a href={aboutPath} class="hover:opacity-70 transition-opacity">{t['nav.about']}</a>
+  <a href={contactPath} class="hover:opacity-70 transition-opacity">{t['nav.contact']}</a>
+  <a
+    href={langToggleUrl}
+    class="font-medium hover:opacity-70 transition-opacity"
+    style="color: var(--color-accent);"
+  >
+    {altLang.toUpperCase()}
+  </a>
+</div>
+
+<script>
+  const toggle = document.getElementById('nav-toggle')!;
+  const drawer = document.getElementById('nav-drawer') as HTMLElement;
+
+  toggle.addEventListener('click', () => {
+    const opening = drawer.style.display === 'none';
+    drawer.style.display = opening ? 'flex' : 'none';
+    toggle.setAttribute('aria-expanded', String(opening));
+  });
+</script>

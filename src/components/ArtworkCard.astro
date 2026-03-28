@@ -1,0 +1,44 @@
+---
+import type { Lang } from "../i18n/ui";
+import { ui } from "../i18n/ui";
+
+interface Props {
+  title: string;
+  category: string;
+  image: string;
+  availability: "available" | "sold" | "not_for_sale";
+  lang: Lang;
+  detailPath: string;
+}
+
+const { title, category, image, availability, lang, detailPath } = Astro.props;
+const t = ui[lang];
+---
+
+<article
+  class="artwork-card group relative overflow-hidden"
+  data-category={category}
+  style="min-width: 150px; flex-grow: 1;"
+>
+  <a href={detailPath} class="block relative">
+    <img
+      src={image}
+      alt={title}
+      loading="lazy"
+      class="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+    />
+    <div
+      class="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      style="background: linear-gradient(to top, rgba(26,26,24,0.75) 0%, transparent 60%);"
+    >
+      <h3 class="text-white text-lg font-light">
+        {title}
+      </h3>
+      {
+        availability === 'available' && (
+          <span class="text-xs text-white/80 mt-1">{t['availability.available']}</span>
+        )
+      }
+    </div>
+  </a>
+</article>

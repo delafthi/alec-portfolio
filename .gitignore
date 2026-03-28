@@ -1,0 +1,14 @@
+# Ignore build outputs from performing a nix-build or `nix build` command
+result
+result-*
+
+# Ignore tooling caches
+.rumdl_cache
+
+# Ignore automatically generated direnv output
+.direnv
+
+# JavaScript project artifacts
+node_modules/
+dist/
+.astro/

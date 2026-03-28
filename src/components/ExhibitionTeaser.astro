@@ -1,0 +1,65 @@
+---
+import type { Lang } from "../i18n/ui";
+import { ui } from "../i18n/ui";
+
+interface Exhibition {
+  id: string;
+  data: {
+    title: string;
+    venue: string;
+    city: string;
+    date_start: Date;
+    date_end: Date;
+    type: "solo" | "gruppe";
+  };
+}
+
+interface Props {
+  exhibitions: Exhibition[];
+  lang: Lang;
+  exhibitionsPath: string;
+}
+
+const { exhibitions, lang, exhibitionsPath } = Astro.props;
+const t = ui[lang];
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString(lang === "de" ? "de-DE" : "en-GB", {
+    month: "long",
+    year: "numeric",
+  });
+}
+---
+
+{
+  exhibitions.length > 0 && (
+    <section class="px-6 md:px-12 py-16" style="border-top: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);">
+      <h2 class="text-3xl font-light mb-8">
+        {t['landing.upcoming_exhibitions']}
+      </h2>
+      <ul class="flex flex-col gap-6 max-w-2xl">
+        {exhibitions.map((ex) => (
+          <li class="flex flex-col gap-1">
+            <p class="text-xl font-light" style="font-family: var(--font-heading);">{ex.data.title}</p>
+            <p class="text-sm" style="color: var(--color-accent);">
+              {ex.data.venue}, {ex.data.city}
+            </p>
+            <p class="text-sm">
+              {formatDate(ex.data.date_start)} – {formatDate(ex.data.date_end)}
+            </p>
+            <p class="text-xs" style="color: var(--color-accent);">
+              {t[`exhibition.type.${ex.data.type}`]}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <a
+        href={exhibitionsPath}
+        class="inline-block mt-8 text-sm underline underline-offset-4 hover:opacity-70 transition-opacity"
+        style="color: var(--color-accent);"
+      >
+        {t['exhibitions.upcoming']} →
+      </a>
+    </section>
+  )
+}

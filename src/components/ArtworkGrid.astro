@@ -1,0 +1,66 @@
+---
+import type { Lang } from "../i18n/ui";
+import ArtworkCard from "./ArtworkCard.astro";
+
+interface Artwork {
+  id: string;
+  data: {
+    title: string;
+    category: string;
+    image: string;
+    availability: "available" | "sold" | "not_for_sale";
+  };
+}
+
+interface Props {
+  artworks: Artwork[];
+  lang: Lang;
+  detailBasePath: string;
+}
+
+const { artworks, lang, detailBasePath } = Astro.props;
+---
+
+<div class="flex flex-wrap items-center gap-2" id="artwork-grid">
+  {
+    artworks.map((artwork) => (
+      <ArtworkCard
+        title={artwork.data.title}
+        category={artwork.data.category}
+        image={artwork.data.image}
+        availability={artwork.data.availability}
+        lang={lang}
+        detailPath={`${detailBasePath}/${artwork.id}`}
+      />
+    ))
+  }
+  {/* Spacers prevent last row from stretching too wide */}
+  <div class="grow-[10]" aria-hidden="true"></div>
+</div>
+
+<style>
+  @media (max-width: 639px) {
+    #artwork-grid :global(.artwork-card) {
+      flex-grow: 1 !important;
+      flex-basis: 100% !important;
+      min-width: 0 !important;
+    }
+  }
+</style>
+
+<script>
+  const ROW_HEIGHT = 280;
+  const grid = document.getElementById('artwork-grid')!;
+  const cards = grid.querySelectorAll<HTMLElement>('.artwork-card');
+
+  cards.forEach((card) => {
+    const img = card.querySelector('img')!;
+    function apply() {
+      const ratio = img.naturalWidth / img.naturalHeight;
+      card.style.flexGrow = String(ratio);
+      card.style.flexBasis = `${Math.round(ratio * ROW_HEIGHT)}px`;
+    }
+    if (img.complete && img.naturalWidth > 0) apply();
+    else img.addEventListener('load', apply, { once: true });
+  });
+</script>

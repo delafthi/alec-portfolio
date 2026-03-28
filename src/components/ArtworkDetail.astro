@@ -1,0 +1,261 @@
+---
+import type { Lang } from "../i18n/ui";
+import { ui } from "../i18n/ui";
+
+interface ArtworkEntry {
+  id: string;
+  title: string;
+  image: string;
+  url: string;
+  category: string;
+}
+
+interface Props {
+  title: string;
+  image: string;
+  date: Date;
+  size: string;
+  materials: string;
+  notes?: string;
+  availability: "available" | "sold" | "not_for_sale";
+  lang: Lang;
+  currentIndex: number;
+  allArtworks: ArtworkEntry[];
+}
+
+const {
+  title,
+  image,
+  date,
+  size,
+  materials,
+  notes,
+  availability,
+  lang,
+  currentIndex,
+  allArtworks,
+} = Astro.props;
+const t = ui[lang];
+const year = date.getFullYear();
+---
+
+<nav class="max-w-6xl mx-auto px-6 pt-8">
+  <a
+    href={`/${lang}/portfolio`}
+    class="text-sm transition-opacity hover:opacity-70"
+    style="color: var(--color-accent);"
+  >
+    {t['artwork.back_to_portfolio']}
+  </a>
+</nav>
+
+<article class="max-w-6xl mx-auto px-6 py-12 md:grid md:grid-cols-[2fr_1fr] md:gap-16 md:items-start">
+  <div class="mb-8 md:mb-0">
+    <img
+      id="detail-image"
+      src={image}
+      alt={title}
+      class="w-full h-auto cursor-zoom-in"
+    />
+  </div>
+
+  <div class="flex flex-col gap-5">
+    <h1 class="text-4xl font-light">{title}</h1>
+
+    <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+      <dt class="font-medium" style="color: var(--color-accent);">{t['artwork.year']}</dt>
+      <dd>{year}</dd>
+      {size && <>
+        <dt class="font-medium" style="color: var(--color-accent);">{t['artwork.size']}</dt>
+        <dd>{size}</dd>
+      </>}
+      {materials && <>
+        <dt class="font-medium" style="color: var(--color-accent);">{t['artwork.materials']}</dt>
+        <dd>{materials}</dd>
+      </>}
+      {notes && <>
+        <dt class="font-medium" style="color: var(--color-accent);">{t['artwork.notes']}</dt>
+        <dd>{notes}</dd>
+      </>}
+      <dt class="font-medium" style="color: var(--color-accent);">{t['artwork.availability']}</dt>
+      <dd>{t[`availability.${availability}`]}</dd>
+    </dl>
+  </div>
+</article>
+
+<!-- Lightbox overlay -->
+<div
+  id="lightbox"
+  role="dialog"
+  aria-modal="true"
+  data-artworks={JSON.stringify(allArtworks)}
+  data-current={String(currentIndex)}
+  style="display:none; position:fixed; inset:0; z-index:50; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; cursor:zoom-out;"
+>
+  <button
+    id="lb-prev"
+    class="absolute left-4 md:left-8 text-6xl leading-none select-none transition-opacity hover:opacity-100"
+    style="color: rgba(255,255,255,0.7); top: 50%; transform: translateY(-50%); visibility: hidden;"
+    aria-label="Previous"
+  >
+    &#8249;
+  </button>
+
+  <div style="cursor: default; display: flex; flex-direction: column; align-items: center; max-width: 90vw;" onclick="event.stopPropagation()">
+    <img
+      id="lb-img"
+      src={image}
+      alt={title}
+      style="max-height: 85vh; max-width: 90vw; object-fit: contain;"
+    />
+    <p
+      id="lb-title"
+      class="mt-4 text-xl font-light"
+      style="color: white; font-family: var(--font-heading);"
+    >
+      {title}
+    </p>
+  </div>
+
+  <button
+    id="lb-next"
+    class="absolute right-4 md:right-8 text-6xl leading-none select-none transition-opacity hover:opacity-100"
+    style="color: rgba(255,255,255,0.7); top: 50%; transform: translateY(-50%); visibility: hidden;"
+    aria-label="Next"
+  >
+    &#8250;
+  </button>
+
+  <button
+    id="lb-close"
+    class="absolute top-4 right-6 text-4xl leading-none transition-opacity hover:opacity-100"
+    style="color: rgba(255,255,255,0.7);"
+    aria-label="Close"
+  >
+    &times;
+  </button>
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox') as HTMLElement;
+  const allArtworks: Array<{ id: string; title: string; image: string; url: string; category: string }> = JSON.parse(
+    lightbox.dataset.artworks ?? '[]'
+  );
+
+  const categoryParam = new URLSearchParams(location.search).get('category');
+  const artworks = categoryParam
+    ? allArtworks.filter((a) => a.category === categoryParam)
+    : allArtworks;
+
+  const currentId = allArtworks[parseInt(lightbox.dataset.current ?? '0', 10)]?.id;
+  let idx = artworks.findIndex((a) => a.id === currentId);
+  if (idx === -1) idx = 0;
+  const lbImg = document.getElementById('lb-img') as HTMLImageElement;
+  const lbTitle = document.getElementById('lb-title')!;
+  const lbPrev = document.getElementById('lb-prev') as HTMLButtonElement;
+  const lbNext = document.getElementById('lb-next') as HTMLButtonElement;
+  const lbClose = document.getElementById('lb-close')!;
+  const detailImg = document.getElementById('detail-image')!;
+
+  function updateNav() {
+    lbPrev.style.visibility = idx > 0 ? 'visible' : 'hidden';
+    lbNext.style.visibility = idx < artworks.length - 1 ? 'visible' : 'hidden';
+  }
+
+  function showSlide(index: number) {
+    idx = index;
+    const a = artworks[idx];
+    lbImg.src = a.image;
+    lbImg.alt = a.title;
+    lbTitle.textContent = a.title;
+    const url = categoryParam ? `${a.url}?category=${categoryParam}` : a.url;
+    history.replaceState({}, '', url);
+    updateNav();
+    lbImg.addEventListener('load', () => applyTint(lbImg), { once: true });
+  }
+
+  const BASE_BG = '#f7f5f2';
+  const tintCanvas = document.createElement('canvas');
+  tintCanvas.width = 40;
+  tintCanvas.height = 40;
+  const tintCtx = tintCanvas.getContext('2d');
+
+  function applyTint(img: HTMLImageElement) {
+    if (!tintCtx) return;
+    try {
+      tintCtx.drawImage(img, 0, 0, 40, 40);
+      const data = tintCtx.getImageData(0, 0, 40, 40).data;
+      let r = 0, g = 0, b = 0;
+      const n = 40 * 40;
+      for (let i = 0; i < data.length; i += 4) { r += data[i]; g += data[i + 1]; b += data[i + 2]; }
+      r = Math.round(r / n); g = Math.round(g / n); b = Math.round(b / n);
+      const mix = 0.3;
+      const tr = Math.round(r * mix + 0xf7 * (1 - mix));
+      const tg = Math.round(g * mix + 0xf5 * (1 - mix));
+      const tb = Math.round(b * mix + 0xf2 * (1 - mix));
+      document.documentElement.style.setProperty('--color-background', `rgb(${tr},${tg},${tb})`);
+      document.body.style.backgroundColor = `rgb(${tr},${tg},${tb})`;
+    } catch (_) { /* cross-origin or canvas not supported */ }
+  }
+
+  let openedAt = '';
+  let previousFocus: HTMLElement | null = null;
+
+  function open() {
+    openedAt = window.location.href;
+    previousFocus = document.activeElement as HTMLElement | null;
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    updateNav();
+    applyTint(lbImg);
+    lbClose.focus();
+  }
+
+  function close() {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+    document.documentElement.style.setProperty('--color-background', BASE_BG);
+    document.body.style.backgroundColor = BASE_BG;
+    previousFocus?.focus();
+    if (window.location.href !== openedAt) {
+      window.location.reload();
+    }
+  }
+
+  detailImg.addEventListener('click', open);
+  lbClose.addEventListener('click', close);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+
+  lbPrev.addEventListener('click', (e) => { e.stopPropagation(); if (idx > 0) showSlide(idx - 1); });
+  lbNext.addEventListener('click', (e) => { e.stopPropagation(); if (idx < artworks.length - 1) showSlide(idx + 1); });
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.style.display !== 'flex') return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft' && idx > 0) showSlide(idx - 1);
+    if (e.key === 'ArrowRight' && idx < artworks.length - 1) showSlide(idx + 1);
+    if (e.key === 'Tab') {
+      const focusable = lightbox.querySelectorAll<HTMLElement>(
+        'button:not([style*="visibility: hidden"])'
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) < 40) return;
+    if (dx < 0 && idx < artworks.length - 1) showSlide(idx + 1);
+    if (dx > 0 && idx > 0) showSlide(idx - 1);
+  });
+</script>

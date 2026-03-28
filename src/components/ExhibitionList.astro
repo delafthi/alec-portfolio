@@ -1,0 +1,80 @@
+---
+import type { Lang } from "../i18n/ui";
+import { ui } from "../i18n/ui";
+import ExhibitionItem from "./ExhibitionItem.astro";
+
+interface Exhibition {
+  id: string;
+  data: {
+    title: string;
+    venue: string;
+    city: string;
+    date_start: Date;
+    date_end: Date;
+    type: "solo" | "gruppe";
+    url?: string;
+    description?: string;
+  };
+}
+
+interface Props {
+  upcoming: Exhibition[];
+  past: Exhibition[];
+  lang: Lang;
+}
+
+const { upcoming, past, lang } = Astro.props;
+const t = ui[lang];
+---
+
+<div class="px-6 md:px-12 py-16 max-w-3xl mx-auto flex flex-col gap-16">
+  {
+    upcoming.length > 0 && (
+      <section>
+        <h2 class="text-3xl font-light mb-8">
+          {t['exhibitions.upcoming']}
+        </h2>
+        <ul class="flex flex-col gap-8">
+          {upcoming.map((ex) => (
+            <ExhibitionItem
+              title={ex.data.title}
+              venue={ex.data.venue}
+              city={ex.data.city}
+              date_start={ex.data.date_start}
+              date_end={ex.data.date_end}
+              type={ex.data.type}
+              url={ex.data.url}
+              description={ex.data.description}
+              lang={lang}
+            />
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    past.length > 0 && (
+      <section>
+        <h2 class="text-3xl font-light mb-8">
+          {t['exhibitions.past']}
+        </h2>
+        <ul class="flex flex-col gap-8">
+          {past.map((ex) => (
+            <ExhibitionItem
+              title={ex.data.title}
+              venue={ex.data.venue}
+              city={ex.data.city}
+              date_start={ex.data.date_start}
+              date_end={ex.data.date_end}
+              type={ex.data.type}
+              url={ex.data.url}
+              description={ex.data.description}
+              lang={lang}
+            />
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</div>

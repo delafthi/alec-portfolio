@@ -1,0 +1,23 @@
+[build]
+command = "bun run build"
+publish = "dist"
+
+# Language auto-detect: German browsers → /de/, everyone else → /en/
+[[redirects]]
+from = "/"
+to = "/de/"
+status = 302
+conditions = { Language = ["de"] }
+force = false
+
+[[redirects]]
+from = "/"
+to = "/en/"
+status = 302
+force = false
+
+# Decap CMS admin SPA
+[[redirects]]
+from = "/admin/*"
+to = "/admin/index.html"
+status = 200

@@ -1,0 +1,31 @@
+name: Update npm packages
+on:
+  # Run after the flake lock update completes each week
+  workflow_run:
+    workflows: ["Update flake lock"]
+    types: [completed]
+  workflow_dispatch:
+jobs:
+  update:
+    name: bun update
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Update npm packages
+        run: bun update
+      - name: Build
+        run: bun run build
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore(deps): update npm packages"
+          title: "chore(deps): update npm packages"
+          labels: |
+            auto-merge
+            dependencies

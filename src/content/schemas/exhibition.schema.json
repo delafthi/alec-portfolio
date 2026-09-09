@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Exhibition",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "title": { "type": "string" },
+    "location": { "type": "string" },
+    "startDate": { "type": "string", "format": "date" },
+    "endDate": { "type": "string", "format": "date" },
+    "link": { "type": "string", "format": "uri" },
+    "juried": { "type": "boolean" }
+  },
+  "required": ["title", "location", "startDate"],
+  "additionalProperties": false
+}

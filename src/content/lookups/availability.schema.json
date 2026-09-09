@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Availability",
+  "description": "Validates src/content/lookups/availability.json. Keys must stay in sync with src/lib/lookups.ts (AVAILABILITY_KEYS).",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "availability": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/availabilityEntry" }
+    }
+  },
+  "required": ["availability"],
+  "additionalProperties": false,
+  "$defs": {
+    "availabilityKey": {
+      "description": "References the keys of src/content/lookups/availability.json.",
+      "enum": ["available", "not_available"]
+    },
+    "availabilityEntry": {
+      "type": "object",
+      "properties": {
+        "key": { "$ref": "#/$defs/availabilityKey" },
+        "label": { "$ref": "../schemas/localized.schema.json" }
+      },
+      "required": ["key", "label"],
+      "additionalProperties": false
+    }
+  }
+}

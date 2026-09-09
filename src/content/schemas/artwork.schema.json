@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Artwork",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "title": { "$ref": "localized.schema.json" },
+    "notes": { "$ref": "localized.schema.json" },
+    "year": { "type": "integer", "minimum": 1900, "maximum": 2100 },
+    "month": { "type": "integer", "minimum": 1, "maximum": 12 },
+    "size": { "type": "string" },
+    "materials": {
+      "$ref": "../lookups/materials.schema.json#/$defs/materialKey"
+    },
+    "availability": {
+      "$ref": "../lookups/availability.schema.json#/$defs/availabilityKey"
+    },
+    "image": { "type": "string" },
+    "featured": { "type": "boolean", "default": false },
+    "tags": {
+      "type": "array",
+      "items": { "$ref": "tag-id.schema.json" },
+      "default": []
+    }
+  },
+  "required": ["title", "size", "materials", "availability", "image"],
+  "additionalProperties": false
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "material-groups.schema.json",
+  "materialGroups": [
+    {
+      "key": "oil",
+      "label": {
+        "en": "Oil",
+        "de": "Öl"
+      }
+    },
+    {
+      "key": "acrylic",
+      "label": {
+        "en": "Acrylic",
+        "de": "Acryl"
+      }
+    },
+    {
+      "key": "pastel",
+      "label": {
+        "en": "Pastel",
+        "de": "Pastell"
+      }
+    },
+    {
+      "key": "charcoal",
+      "label": {
+        "en": "Charcoal",
+        "de": "Kohle"
+      }
+    },
+    {
+      "key": "pencil",
+      "label": {
+        "en": "Pencil",
+        "de": "Bleistift"
+      }
+    },
+    {
+      "key": "watercolour",
+      "label": {
+        "en": "Watercolour",
+        "de": "Aquarell"
+      }
+    },
+    {
+      "key": "other",
+      "label": {
+        "de": "Weitere",
+        "en": "Other"
+      }
+    },
+    {
+      "key": "smithing",
+      "label": {
+        "de": "Schmieden",
+        "en": "Smithing"
+      }
+    },
+    {
+      "key": "pottery",
+      "label": {
+        "de": "Keramik",
+        "en": "Pottery"
+      }
+    }
+  ]
+}

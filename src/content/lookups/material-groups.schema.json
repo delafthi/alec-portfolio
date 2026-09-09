@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Material groups",
+  "description": "Validates src/content/lookups/material-groups.json. Keys must stay in sync with src/lib/lookups.ts (MATERIAL_GROUP_KEYS).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "materialGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/materialGroup"
+      }
+    }
+  },
+  "required": ["materialGroups"],
+  "additionalProperties": false,
+  "$defs": {
+    "materialGroupKey": {
+      "description": "References the keys of src/content/lookups/material-groups.json.",
+      "enum": [
+        "oil",
+        "acrylic",
+        "pastel",
+        "charcoal",
+        "pencil",
+        "watercolour",
+        "other",
+        "smithing",
+        "pottery"
+      ]
+    },
+    "materialGroup": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/materialGroupKey"
+        },
+        "label": {
+          "$ref": "../schemas/localized.schema.json"
+        }
+      },
+      "required": ["key", "label"],
+      "additionalProperties": false
+    }
+  }
+}

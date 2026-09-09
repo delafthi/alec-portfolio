@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Localized string",
+  "description": "A bilingual string with English and German values.",
+  "type": "object",
+  "properties": {
+    "en": { "type": "string" },
+    "de": { "type": "string" }
+  },
+  "required": ["en", "de"],
+  "additionalProperties": false
+}

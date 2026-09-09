@@ -1,0 +1,6 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Tag id",
+  "description": "Tag ids defined by the files in src/content/tags/.",
+  "enum": ["anatomy", "animals", "nature", "nude", "portrait", "sketch"]
+}

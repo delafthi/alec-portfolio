@@ -1,0 +1,10 @@
+{
+  "$schema": "availability.schema.json",
+  "availability": [
+    { "key": "available", "label": { "en": "Available", "de": "Verfügbar" } },
+    {
+      "key": "not_available",
+      "label": { "en": "Not available", "de": "Nicht verfügbar" }
+    }
+  ]
+}

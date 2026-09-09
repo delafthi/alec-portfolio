@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Materials",
+  "description": "Validates src/content/lookups/materials.json. Keys must stay in sync with src/lib/lookups.ts (MATERIAL_KEYS).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "materials": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/material"
+      }
+    }
+  },
+  "required": ["materials"],
+  "additionalProperties": false,
+  "$defs": {
+    "materialKey": {
+      "description": "References the keys of src/content/lookups/materials.json.",
+      "enum": [
+        "oil_canvas",
+        "oil_canvas_knife",
+        "oil_linen",
+        "acrylic_canvas",
+        "acrylic_linen_knife",
+        "pencil",
+        "charcoal_paper",
+        "chalk_charcoal_photo",
+        "pastel_photo",
+        "pastel_chalk_charcoal_photo",
+        "pastel_chalk",
+        "pastel_ink",
+        "pencil_chalk",
+        "watercolour",
+        "oil_photo"
+      ]
+    },
+    "material": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/materialKey"
+        },
+        "group": {
+          "$ref": "./material-groups.schema.json#/$defs/materialGroupKey"
+        },
+        "label": {
+          "$ref": "../schemas/localized.schema.json"
+        }
+      },
+      "required": ["key", "group", "label"],
+      "additionalProperties": false
+    }
+  }
+}

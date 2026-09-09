@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Löwin am Wasser",
+    "en": "Lioness at the Water"
+  },
+  "year": 2026,
+  "month": 3,
+  "size": "70 × 50 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/loewin-am-wasser.jpg",
+  "featured": true,
+  "tags": ["animals"]
+}

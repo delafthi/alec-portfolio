@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Matterhorn Nordwand",
+    "en": "Matterhorn North Face"
+  },
+  "size": "100 × 140 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/matterhorn-nordwand.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

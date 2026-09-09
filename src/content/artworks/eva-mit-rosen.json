@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Eva mit Rosen",
+    "en": "Eve with Roses"
+  },
+  "size": "120 × 90 cm",
+  "materials": "oil_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/eva-mit-rosen.jpg",
+  "featured": false,
+  "tags": ["nude"]
+}

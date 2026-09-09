@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Mann im Profil mit Brille",
+    "en": "Man in Profile with Glasses"
+  },
+  "year": 2017,
+  "month": 6,
+  "size": "A5",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/mann-im-profil-mit-brille.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

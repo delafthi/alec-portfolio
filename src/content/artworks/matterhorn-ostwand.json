@@ -1,0 +1,19 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Matterhorn Ostwand",
+    "en": "Matterhorn East Face"
+  },
+  "year": 2017,
+  "month": 11,
+  "notes": {
+    "de": "Triptychon (30 + 20 + 30 cm)",
+    "en": "Triptych (30 + 20 + 30 cm)"
+  },
+  "size": "80 × 80 cm",
+  "materials": "oil_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/matterhorn-ostwand.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Stehende Frau von vorne",
+    "en": "Standing Woman from the Front"
+  },
+  "year": 2023,
+  "month": 3,
+  "size": "A3",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/stehende-frau-von-vorne.jpg",
+  "featured": false,
+  "tags": ["nude", "sketch"]
+}

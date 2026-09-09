@@ -1,0 +1,7 @@
+{
+  "$schema": "../schemas/exhibition.schema.json",
+  "title": "Kunst im Labor5",
+  "location": "Schiffbaustrasse 3, 8005 Zürich",
+  "startDate": "2022-12-11",
+  "link": "https://www.kunstimlabor.ch/"
+}

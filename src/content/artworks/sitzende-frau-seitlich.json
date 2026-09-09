@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Sitzende Frau, seitlich",
+    "en": "Seated Woman, Side View"
+  },
+  "year": 2023,
+  "month": 2,
+  "size": "A3",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/sitzende-frau-seitlich.jpg",
+  "featured": false,
+  "tags": ["nude", "sketch"]
+}

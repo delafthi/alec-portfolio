@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Tigerkopf",
+    "en": "Tiger Head"
+  },
+  "year": 2026,
+  "month": 8,
+  "size": "100 × 80 cm",
+  "materials": "oil_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/tigerkopf.jpg",
+  "featured": true,
+  "tags": ["animals"]
+}

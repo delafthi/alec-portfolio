@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Sitzender Mann, Arme über dem Kopf, hinten",
+    "en": "Seated Man, Arms over Head, Back"
+  },
+  "year": 2023,
+  "month": 2,
+  "size": "A3",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/sitzender-mann-arme-ueber-dem-kopf-hinten.jpg",
+  "featured": false,
+  "tags": ["nude", "sketch"]
+}

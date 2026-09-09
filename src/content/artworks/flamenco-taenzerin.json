@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Flamenco-Tänzerin",
+    "en": "Flamenco Dancer"
+  },
+  "year": 2021,
+  "month": 6,
+  "size": "A5",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/flamenco-taenzerin.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

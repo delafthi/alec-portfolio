@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Weisshorn",
+    "en": "Weisshorn"
+  },
+  "size": "100 × 140 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/weisshorn.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

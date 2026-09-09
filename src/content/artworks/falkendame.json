@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Falkendame",
+    "en": "Falcon"
+  },
+  "notes": {
+    "de": "Pittpastell",
+    "en": "Pitt pastel"
+  },
+  "size": "50 × 70 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/falkendame.jpg",
+  "featured": false,
+  "tags": ["animals", "sketch"]
+}

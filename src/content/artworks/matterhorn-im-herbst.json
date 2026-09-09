@@ -1,0 +1,19 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Matterhorn im Herbst",
+    "en": "Matterhorn in Autumn"
+  },
+  "year": 2025,
+  "month": 12,
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "60 × 80 cm",
+  "materials": "oil_linen",
+  "availability": "not_available",
+  "image": "../../assets/artworks/matterhorn-im-herbst.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

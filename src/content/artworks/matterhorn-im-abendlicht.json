@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Matterhorn im Abendlicht",
+    "en": "Matterhorn in Evening Light"
+  },
+  "year": 2017,
+  "month": 7,
+  "size": "80 × 100 cm",
+  "materials": "acrylic_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/matterhorn-im-abendlicht.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

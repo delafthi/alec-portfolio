@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Sitzender Mann, Arme über dem Kopf, vorne",
+    "en": "Seated Man, Arms over Head, Front"
+  },
+  "year": 2023,
+  "month": 3,
+  "size": "A3",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/sitzender-mann-arme-ueber-dem-kopf-vorne.jpg",
+  "featured": false,
+  "tags": ["nude", "sketch"]
+}

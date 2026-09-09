@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Zinalrothorn Nordwand",
+    "en": "Zinalrothorn North Face"
+  },
+  "year": 2020,
+  "month": 3,
+  "size": "50 × 70 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/zinalrothorn-nordwand.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

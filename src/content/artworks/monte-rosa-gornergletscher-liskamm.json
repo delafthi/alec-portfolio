@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Monte Rosa mit Gornergletscher und Liskamm vom Gornergrat",
+    "en": "Monte Rosa with Gorner Glacier and Liskamm from the Gornergrat"
+  },
+  "size": "90 × 120 cm",
+  "materials": "acrylic_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/monte-rosa-gornergletscher-liskamm.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Weisser Hai",
+    "en": "Great White Shark"
+  },
+  "size": "50 × 100 cm",
+  "materials": "oil_canvas",
+  "availability": "not_available",
+  "image": "../../assets/artworks/weisser-hai.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

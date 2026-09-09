@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Tiger im Profil",
+    "en": "Tiger in Profile"
+  },
+  "year": 2018,
+  "month": 2,
+  "size": "40 × 40 cm",
+  "materials": "acrylic_canvas",
+  "availability": "not_available",
+  "image": "../../assets/artworks/tiger-im-profil.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

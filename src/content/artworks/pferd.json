@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Pferd in Fragmenten",
+    "en": "Horse in Fragments"
+  },
+  "year": 2022,
+  "month": 2,
+  "size": "100 × 80 cm",
+  "materials": "oil_canvas_knife",
+  "availability": "not_available",
+  "image": "../../assets/artworks/pferd.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

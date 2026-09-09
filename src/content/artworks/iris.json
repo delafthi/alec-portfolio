@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Iris mit gesenktem Blick",
+    "en": "Iris Looking Down"
+  },
+  "year": 2025,
+  "month": 10,
+  "size": "70 × 50 cm",
+  "materials": "chalk_charcoal_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/iris.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

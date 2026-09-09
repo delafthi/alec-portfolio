@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Alte Bäume im Wald",
+    "en": "Old Trees in Forest"
+  },
+  "year": 2023,
+  "month": 12,
+  "size": "A3",
+  "materials": "charcoal_paper",
+  "availability": "available",
+  "image": "../../assets/artworks/alte-baeume-im-wald.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

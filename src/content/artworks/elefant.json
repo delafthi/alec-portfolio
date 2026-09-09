@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Elefant",
+    "en": "Elephant"
+  },
+  "size": "A4",
+  "materials": "watercolour",
+  "availability": "available",
+  "image": "../../assets/artworks/elefant.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

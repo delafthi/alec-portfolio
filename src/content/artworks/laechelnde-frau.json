@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Lächelnde Frau",
+    "en": "Smiling Woman"
+  },
+  "year": 2023,
+  "month": 7,
+  "size": "A5",
+  "materials": "pencil_chalk",
+  "availability": "available",
+  "image": "../../assets/artworks/laechelnde-frau.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

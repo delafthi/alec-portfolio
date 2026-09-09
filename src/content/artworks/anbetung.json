@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Anbetung",
+    "en": "Adoration"
+  },
+  "year": 2025,
+  "month": 11,
+  "size": "70 × 50 cm",
+  "materials": "chalk_charcoal_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/anbetung.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

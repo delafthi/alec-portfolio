@@ -1,0 +1,8 @@
+{
+  "$schema": "../schemas/exhibition.schema.json",
+  "title": "Kunstverein Artischock",
+  "location": "Erlenbacherhof, Seestrasse 83, Erlenbach ZH",
+  "startDate": "2024-05-31",
+  "endDate": "2024-06-09",
+  "link": "https://artischock.ch/"
+}

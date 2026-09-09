@@ -1,0 +1,19 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Witwe",
+    "en": "Widow"
+  },
+  "year": 2026,
+  "month": 8,
+  "notes": {
+    "de": "Nach einem Photo von Peter Schaeublin (720 Grad). Er beschreibt die Entstehung des Gemäldes in einem [Blog-Post](https://www.720.ch/blog/alecs-gemaelde).",
+    "en": "After a photo by Peter Schaeublin (720 Grad). He describes the making of this painting in a [blog post](https://www.720.ch/blog/alecs-gemaelde)."
+  },
+  "size": "70 × 50 cm",
+  "materials": "chalk_charcoal_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/witwe.jpg",
+  "featured": true,
+  "tags": ["portrait"]
+}

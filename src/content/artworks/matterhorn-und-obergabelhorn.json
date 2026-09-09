@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Matterhorn und Obergabelhorn",
+    "en": "Matterhorn and Obergabelhorn"
+  },
+  "notes": {
+    "de": "In Bearbeitung",
+    "en": "Work in progress"
+  },
+  "size": "100 × 80 cm",
+  "materials": "oil_canvas_knife",
+  "availability": "available",
+  "image": "../../assets/artworks/matterhorn-und-obergabelhorn.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

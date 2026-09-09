@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Jaguarkopf",
+    "en": "Jaguar Head"
+  },
+  "year": 2016,
+  "month": 10,
+  "size": "A3",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/jaguarkopf.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

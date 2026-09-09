@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Leopard im Gras",
+    "en": "Leopard in the Grass"
+  },
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "80 × 100 cm",
+  "materials": "oil_canvas",
+  "availability": "not_available",
+  "image": "../../assets/artworks/leopard-im-gras.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Lachende Frau, Blick nach oben",
+    "en": "Laughing Woman Looking Up"
+  },
+  "year": 2021,
+  "month": 4,
+  "size": "A3",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/lachende-frau-blick-nach-oben.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Berner Sennenhund",
+    "en": "Bernese Shepherd"
+  },
+  "year": 2026,
+  "month": 2,
+  "size": "70 × 50 cm",
+  "materials": "pastel_chalk_charcoal_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/berner-sennenhund.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

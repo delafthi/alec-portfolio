@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Junge Sängerin",
+    "en": "Young Singer"
+  },
+  "year": 2022,
+  "month": 10,
+  "size": "A5",
+  "materials": "pastel_chalk",
+  "availability": "available",
+  "image": "../../assets/artworks/junge-saengerin.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

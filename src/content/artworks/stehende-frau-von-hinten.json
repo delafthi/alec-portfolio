@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Stehende Frau von hinten",
+    "en": "Standing Woman from Behind"
+  },
+  "year": 2023,
+  "month": 3,
+  "size": "A3",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/stehende-frau-von-hinten.jpg",
+  "featured": false,
+  "tags": ["nude", "sketch"]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Obergabelhorn und Wellenkuppe",
+    "en": "Obergabelhorn and Wellenkuppe"
+  },
+  "size": "70 × 200 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/obergabelhorn-und-wellenkuppe.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

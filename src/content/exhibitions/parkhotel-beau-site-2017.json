@@ -1,0 +1,8 @@
+{
+  "$schema": "../schemas/exhibition.schema.json",
+  "title": "Parkhotel Beau Site",
+  "location": "Brunnmattgasse 9, Zermatt",
+  "startDate": "2017-11-01",
+  "endDate": "2018-10-31",
+  "link": "https://www.beausitezermatt.ch/"
+}

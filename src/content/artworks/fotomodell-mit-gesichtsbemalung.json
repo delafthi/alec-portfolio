@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Fotomodell mit Gesichtsbemalung",
+    "en": "Photo Model with Face Paint"
+  },
+  "year": 2021,
+  "month": 9,
+  "size": "50 × 70 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/fotomodell-mit-gesichtsbemalung.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

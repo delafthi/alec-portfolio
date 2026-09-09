@@ -1,0 +1,19 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Dackel",
+    "en": "Dachshund"
+  },
+  "year": 2025,
+  "month": 10,
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "70 × 50 cm",
+  "materials": "pastel_photo",
+  "availability": "not_available",
+  "image": "../../assets/artworks/dackel.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

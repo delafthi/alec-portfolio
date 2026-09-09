@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Frauenkopf",
+    "en": "Head of a Woman"
+  },
+  "size": "70 × 100 cm",
+  "materials": "oil_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/frauenkopf.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

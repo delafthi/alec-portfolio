@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Border Collie",
+    "en": "Border Collie"
+  },
+  "year": 2025,
+  "month": 1,
+  "size": "A4",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/border-collie.jpg",
+  "featured": false,
+  "tags": ["animals", "sketch"]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Reiterin auf weissem Pferd",
+    "en": "Rider on a White Horse"
+  },
+  "year": 2022,
+  "month": 11,
+  "size": "70 × 60 cm",
+  "materials": "oil_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/reiterin-auf-weissem-pferd.jpg",
+  "featured": true,
+  "tags": ["portrait"]
+}

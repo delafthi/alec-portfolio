@@ -1,0 +1,19 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Matterhorn im Sommer",
+    "en": "Matterhorn in Summer"
+  },
+  "year": 2017,
+  "month": 7,
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "90 × 120 cm",
+  "materials": "acrylic_canvas",
+  "availability": "not_available",
+  "image": "../../assets/artworks/matterhorn-im-sommer.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

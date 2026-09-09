@@ -1,0 +1,19 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Frühlingssymphonie",
+    "en": "Spring Symphony"
+  },
+  "year": 2025,
+  "month": 8,
+  "notes": {
+    "de": "Gemeinschaftswerk mit Iris",
+    "en": "Collaboration with Iris"
+  },
+  "size": "160 × 110 cm",
+  "materials": "acrylic_linen_knife",
+  "availability": "available",
+  "image": "../../assets/artworks/fruehlingssymphonie.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Wirbelsäule mit Becken",
+    "en": "Spine and Pelvis"
+  },
+  "size": "70 × 100 cm",
+  "materials": "pastel_ink",
+  "availability": "available",
+  "image": "../../assets/artworks/wirbelsaeule-mit-becken.jpg",
+  "featured": false,
+  "tags": ["anatomy"]
+}

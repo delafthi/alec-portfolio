@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Uhu",
+    "en": "Eagle Owl"
+  },
+  "size": "A5",
+  "materials": "pastel_chalk",
+  "availability": "available",
+  "image": "../../assets/artworks/uhu.jpg",
+  "featured": false,
+  "tags": ["animals", "sketch"]
+}

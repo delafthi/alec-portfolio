@@ -1,0 +1,10 @@
+The images in this directory are NOT covered by the MIT License of this
+repository.
+
+Copyright © ALEC. All rights reserved.
+
+These images are included solely for display on the ALEC portfolio website.
+No reproduction, distribution, or other use without explicit written
+permission from the artist.
+
+See the repository LICENSE file for details.

@@ -1,0 +1,8 @@
+{
+  "$schema": "../schemas/exhibition.schema.json",
+  "title": "Kunstverein Artischock",
+  "location": "Kulturschüür, Alte Landstrasse 230, 8708 Männedorf",
+  "startDate": "2026-09-17",
+  "endDate": "2026-10-04",
+  "link": "https://artischock.ch/artischockkulturschueuer-unjurierte-ausstellung-2026/"
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Skifahrerin, Zermatt-Plakat",
+    "en": "Skier, Zermatt Poster"
+  },
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "70 × 100 cm",
+  "materials": "oil_canvas",
+  "availability": "not_available",
+  "image": "../../assets/artworks/skifahrerin-zermatt-plakat.jpg",
+  "featured": false,
+  "tags": []
+}

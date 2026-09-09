@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Amy Winehouse",
+    "en": "Amy Winehouse"
+  },
+  "year": 2016,
+  "month": 5,
+  "size": "50 × 70 cm",
+  "materials": "acrylic_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/amy-winehouse.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

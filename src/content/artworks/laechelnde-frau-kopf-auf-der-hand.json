@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Lächelnde Frau, Kopf auf der Hand",
+    "en": "Smiling Woman, Head on Hand"
+  },
+  "size": "A5",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/laechelnde-frau-kopf-auf-der-hand.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

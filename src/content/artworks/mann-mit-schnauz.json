@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Mann mit Schnauz",
+    "en": "Man with Moustache"
+  },
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "50 × 60 cm",
+  "materials": "oil_canvas",
+  "availability": "not_available",
+  "image": "../../assets/artworks/mann-mit-schnauz.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

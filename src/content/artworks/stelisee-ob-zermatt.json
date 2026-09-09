@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Stelisee ob Zermatt",
+    "en": "Lake Steli above Zermatt"
+  },
+  "year": 2017,
+  "month": 10,
+  "size": "80 × 100 cm",
+  "materials": "acrylic_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/stelisee-ob-zermatt.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

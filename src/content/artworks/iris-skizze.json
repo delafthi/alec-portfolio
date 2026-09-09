@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Iris-Skizze",
+    "en": "Iris Sketch"
+  },
+  "year": 2019,
+  "month": 11,
+  "size": "A5",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/iris-skizze.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

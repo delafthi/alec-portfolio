@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Pferdekopf, frontal",
+    "en": "Horse Head, Frontal"
+  },
+  "year": 2025,
+  "month": 1,
+  "size": "A5",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/pferdekopf-frontal.jpg",
+  "featured": false,
+  "tags": ["animals", "sketch"]
+}

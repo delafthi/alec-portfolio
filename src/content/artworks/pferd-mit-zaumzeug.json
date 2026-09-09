@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Pferd mit Zaumzeug",
+    "en": "Horse with Bridle"
+  },
+  "year": 2024,
+  "month": 12,
+  "size": "A5",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/pferd-mit-zaumzeug.jpg",
+  "featured": false,
+  "tags": ["animals", "sketch"]
+}

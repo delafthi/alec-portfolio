@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Cocker Spaniel",
+    "en": "Cocker Spaniel"
+  },
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "A3",
+  "materials": "pencil",
+  "availability": "not_available",
+  "image": "../../assets/artworks/cocker-spaniel.jpg",
+  "featured": false,
+  "tags": ["animals", "sketch"]
+}

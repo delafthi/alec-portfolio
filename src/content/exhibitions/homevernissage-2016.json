@@ -1,0 +1,7 @@
+{
+  "$schema": "../schemas/exhibition.schema.json",
+  "title": "Homevernissage",
+  "location": "Männedorf",
+  "startDate": "2016-06-01",
+  "endDate": "2016-06-30"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Mann mit weissem Haar",
+    "en": "Man with White Hair"
+  },
+  "year": 2022,
+  "month": 2,
+  "size": "50 × 60 cm",
+  "materials": "oil_canvas",
+  "availability": "available",
+  "image": "../../assets/artworks/mann-mit-weissem-haar.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

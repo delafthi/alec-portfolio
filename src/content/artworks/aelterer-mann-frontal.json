@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Älterer Mann, frontal",
+    "en": "Older Man, Frontal"
+  },
+  "size": "A5",
+  "materials": "pencil_chalk",
+  "availability": "available",
+  "image": "../../assets/artworks/aelterer-mann-frontal.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

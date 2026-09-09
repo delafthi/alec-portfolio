@@ -1,0 +1,8 @@
+{
+  "$schema": "../schemas/exhibition.schema.json",
+  "title": "Kulturgarage Wädenswil",
+  "location": "Florhofstrasse 15, 8820 Wädenswil",
+  "startDate": "2026-11-14",
+  "endDate": "2026-11-22",
+  "link": "https://www.kulturgarage-waedenswil.ch/"
+}

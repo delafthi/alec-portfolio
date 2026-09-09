@@ -1,0 +1,13 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Frau mit denkendem Blick",
+    "en": "Woman with Thoughtful Gaze"
+  },
+  "size": "A3",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/frau-mit-denkendem-blick.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

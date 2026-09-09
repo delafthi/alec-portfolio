@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Penha Longa Resort in Sintra",
+    "en": "Penha Longa Resort in Sintra"
+  },
+  "year": 2022,
+  "month": 1,
+  "size": "A3",
+  "materials": "pastel_chalk",
+  "availability": "available",
+  "image": "../../assets/artworks/penhalonga-sintra.jpg",
+  "featured": false,
+  "tags": []
+}

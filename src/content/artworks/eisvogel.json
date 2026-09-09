@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Eisvogel",
+    "en": "Kingfisher"
+  },
+  "year": 2022,
+  "month": 6,
+  "size": "50 × 70 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/eisvogel.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

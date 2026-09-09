@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Lächelnder Mann mit Brille",
+    "en": "Smiling Man with Glasses"
+  },
+  "year": 2020,
+  "month": 10,
+  "size": "A0",
+  "materials": "pencil",
+  "availability": "available",
+  "image": "../../assets/artworks/laechelnder-mann-mit-brille.jpg",
+  "featured": false,
+  "tags": ["portrait", "sketch"]
+}

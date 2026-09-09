@@ -1,0 +1,19 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Rotmilan",
+    "en": "Red Kite"
+  },
+  "year": 2024,
+  "month": 5,
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "70 × 50 cm",
+  "materials": "oil_linen",
+  "availability": "not_available",
+  "image": "../../assets/artworks/rotmilan.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

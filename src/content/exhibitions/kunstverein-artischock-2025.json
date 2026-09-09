@@ -1,0 +1,9 @@
+{
+  "$schema": "../schemas/exhibition.schema.json",
+  "title": "Kunstverein Artischock",
+  "location": "Trittligasse 4, Zürich",
+  "startDate": "2025-06-19",
+  "endDate": "2025-06-29",
+  "link": "https://artischock.ch/",
+  "juried": true
+}

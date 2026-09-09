@@ -1,0 +1,21 @@
+---
+import ContactForm from "@components/ContactForm.astro";
+import type { Lang } from "@i18n/ui";
+import { getStaticPaths, useTranslations } from "@i18n/utils";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContactEmail } from "@lib/content";
+
+export { getStaticPaths };
+
+const lang = Astro.currentLocale as Lang;
+const t = useTranslations(lang);
+
+const email = await getContactEmail();
+---
+
+<BaseLayout title={t.contact} lang={lang}>
+  <div class="px-6 md:px-12 pt-16 pb-0">
+    <h1 class="text-5xl font-light mb-0 text-center">{t.contact}</h1>
+  </div>
+  <ContactForm lang={lang} email={email} />
+</BaseLayout>

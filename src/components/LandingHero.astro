@@ -1,0 +1,74 @@
+---
+import { Image } from "astro:assets";
+import type { Lang } from "@i18n/ui";
+import type { ArtworkEntry } from "@lib/content";
+
+interface Props {
+  artworks: ArtworkEntry[];
+  detailBasePath: string;
+  lang: Lang;
+}
+
+const { artworks, detailBasePath, lang } = Astro.props;
+---
+
+<div
+  class="relative w-full"
+  style="height: 85vh; background: var(--color-background);"
+>
+  {artworks.map((artwork, i) => {
+      const title = artwork.data.title[lang];
+      return (
+        <a
+          href={`${detailBasePath}/${artwork.id}/`}
+          class="hero-slide absolute inset-0"
+          style={`opacity: ${i === 0 ? 1 : 0}; transition: opacity 1.2s ease; pointer-events: ${i === 0 ? "auto" : "none"};`}
+          data-index={i}
+          data-title={title}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          <Image
+            src={artwork.data.image}
+            alt={title}
+            widths={[...[800, 1400, 1920].filter((w) => w < artwork.data.image.width), artwork.data.image.width]}
+            sizes="100vw"
+            loading={i === 0 ? "eager" : "lazy"}
+            class="w-full h-full object-contain"
+          />
+        </a>
+      );
+    })}
+</div>
+
+<div class="flex flex-col items-center justify-center gap-3 px-8 py-4">
+  <p
+    id="hero-title"
+    class="text-lg font-light"
+    style="font-family: var(--font-heading); color: var(--color-accent);"
+  >
+    {artworks[0]?.data.title[lang] ?? ""}
+  </p>
+  {artworks.length > 1 && (
+      <div class="flex gap-2" id="hero-dots">
+        {artworks.map((artwork, i) => (
+          <button
+            type="button"
+            data-dot={i}
+            class="w-1.5 h-1.5 rounded-full transition-opacity duration-300"
+            style={`background: var(--color-accent); opacity: ${i === 0 ? 1 : 0.35};`}
+            aria-label={artwork.data.title[lang]}
+          />
+        ))}
+      </div>
+    )}
+</div>
+
+<script>
+import { initCarousel } from "@lib/carousel";
+
+initCarousel({
+  slides: Array.from(document.querySelectorAll<HTMLElement>(".hero-slide")),
+  dots: Array.from(document.querySelectorAll<HTMLElement>("[data-dot]")),
+  title: document.getElementById("hero-title"),
+});
+</script>

@@ -1,0 +1,42 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import ExhibitionTeaser from "@components/ExhibitionTeaser.astro";
+import LandingHero from "@components/LandingHero.astro";
+import type { Lang } from "@i18n/ui";
+import { getStaticPaths, useTranslations } from "@i18n/utils";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { artworkDetailBase, getArtworks, getExhibitions } from "@lib/content";
+
+export { getStaticPaths };
+
+const lang = Astro.currentLocale as Lang;
+const t = useTranslations(lang);
+
+const featured = await getArtworks({ featured: true });
+const exhibitions = await getExhibitions();
+---
+
+<BaseLayout title={t["site.title"]} lang={lang} description={t.description}>
+  <LandingHero
+    artworks={featured}
+    detailBasePath={artworkDetailBase(lang)}
+    lang={lang}
+  />
+
+  <div class="px-6 md:px-12 py-8 text-center">
+    <a
+      href={getRelativeLocaleUrl(lang, "/portfolio")}
+      class="text-sm underline underline-offset-4 hover:opacity-70 transition-opacity"
+      style="color: var(--color-accent);"
+    >
+      {t.all_works}
+      →
+    </a>
+  </div>
+
+  <ExhibitionTeaser
+    exhibitions={exhibitions}
+    lang={lang}
+    exhibitionsPath={getRelativeLocaleUrl(lang, "/exhibitions")}
+  />
+</BaseLayout>

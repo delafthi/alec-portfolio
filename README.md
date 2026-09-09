@@ -54,6 +54,20 @@ keys, the schema enums, and the TS key unions all agree.
 Artwork images live in `src/assets/artworks/` and are referenced by relative
 path in each artwork's `image` field.
 
+### Adding entries
+
+```sh
+pnpm new-artwork [--prompt] "Title des Werks" path/to/image.jpg
+pnpm new-exhibition [--prompt] "Title" 2026-11-14
+```
+
+Without `--prompt` the scripts copy the image (artworks only) and write a
+metadata file with empty placeholders to fill in. With `--prompt` they ask
+for each field interactively, with defaults in parentheses and numbered
+lists for `materials`, `availability`, and `tags`. File names are slugs
+derived from the title (exhibitions get the start year appended); existing
+slugs are refused.
+
 ## Languages
 
 - English (`/en/`) and German (`/de/`) — both URL-prefixed, English is the

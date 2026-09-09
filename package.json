@@ -6,7 +6,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "fmt": "nix fmt",
-    "check": "astro check && biome check ."
+    "check": "astro check && biome check .",
+    "new-artwork": "node scripts/new-artwork.mjs",
+    "new-exhibition": "node scripts/new-exhibition.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",

@@ -1,2 +1,2 @@
 [files]
-extend-exclude = ["src/i18n/ui.ts", "**/de/**"]
+extend-exclude = ["src/i18n/ui.ts", "**/de/**", "scripts/lib/cli.mjs"]

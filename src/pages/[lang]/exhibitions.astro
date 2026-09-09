@@ -1,0 +1,21 @@
+---
+import ExhibitionList from "@components/ExhibitionList.astro";
+import type { Lang } from "@i18n/ui";
+import { getStaticPaths, useTranslations } from "@i18n/utils";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getExhibitions } from "@lib/content";
+
+export { getStaticPaths };
+
+const lang = Astro.currentLocale as Lang;
+const t = useTranslations(lang);
+
+const exhibitions = await getExhibitions();
+---
+
+<BaseLayout title={t.exhibitions} lang={lang}>
+  <div class="px-6 md:px-12 pt-16 pb-0">
+    <h1 class="text-5xl font-light mb-0 text-center">{t.exhibitions}</h1>
+  </div>
+  <ExhibitionList exhibitions={exhibitions} lang={lang} />
+</BaseLayout>

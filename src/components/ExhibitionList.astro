@@ -1,0 +1,38 @@
+---
+import type { Lang } from "@i18n/ui";
+import { ui } from "@i18n/ui";
+import { type ExhibitionEntry, splitExhibitions } from "@lib/content";
+import ExhibitionItem from "./ExhibitionItem.astro";
+
+interface Props {
+  exhibitions: ExhibitionEntry[];
+  lang: Lang;
+}
+
+const { exhibitions, lang } = Astro.props;
+const t = ui[lang];
+const { upcoming, past } = splitExhibitions(exhibitions);
+---
+
+<div class="px-6 md:px-12 py-16 max-w-3xl mx-auto flex flex-col gap-16">
+  {upcoming.length > 0 && (
+    <section>
+      <h2 class="text-3xl font-light mb-8">{t.upcoming}</h2>
+      <ul class="flex flex-col gap-8">
+        {upcoming.map((ex) => (
+          <ExhibitionItem exhibition={ex} lang={lang} />
+        ))}
+      </ul>
+    </section>
+  )}
+  {past.length > 0 && (
+    <section>
+      <h2 class="text-3xl font-light mb-8">{t.past}</h2>
+      <ul class="flex flex-col gap-8">
+        {past.map((ex) => (
+          <ExhibitionItem exhibition={ex} lang={lang} />
+        ))}
+      </ul>
+    </section>
+  )}
+</div>

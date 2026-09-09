@@ -1,0 +1,39 @@
+---
+import type { Lang } from "@i18n/ui";
+import { ui } from "@i18n/ui";
+import type { ExhibitionEntry } from "@lib/content";
+import { formatDateRange } from "@lib/date";
+
+interface Props {
+  exhibition: ExhibitionEntry;
+  lang: Lang;
+}
+
+const { exhibition, lang } = Astro.props;
+const { title, location, startDate, endDate, link, juried } = exhibition.data;
+const t = ui[lang];
+---
+
+<li
+  class="flex flex-col gap-2 pb-8"
+  style="border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);"
+>
+  <h3 class="text-2xl font-light">
+    {link ? (
+      <a href={link} target="_blank" rel="noopener noreferrer" class="hover:opacity-70 transition-opacity">
+        {title}
+      </a>
+    ) : (
+      title
+    )}
+    {juried && (
+      <span class="ml-2 text-sm font-normal" style="color: var(--color-accent);">
+        ({t.juried})
+      </span>
+    )}
+  </h3>
+  <p class="text-sm font-medium" style="color: var(--color-accent);">
+    {location}
+  </p>
+  <p class="text-sm">{formatDateRange(startDate, endDate, lang)}</p>
+</li>

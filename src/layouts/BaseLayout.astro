@@ -1,0 +1,68 @@
+---
+import InstagramIcon from "@components/InstagramIcon.astro";
+import Nav from "@components/Nav.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  lang: "de" | "en";
+  description?: string;
+  altLangUrl?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  lang,
+  description = "Artworks by ALEC",
+  altLangUrl,
+  image,
+  noindex = false,
+} = Astro.props;
+const fullTitle = `${title} — ALEC`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{fullTitle}</title>
+    <meta name="description" content={description}>
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonicalUrl}>
+    <meta property="og:title" content={fullTitle}>
+    <meta property="og:description" content={description}>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content={canonicalUrl}>
+    <meta property="og:locale" content={lang === "de" ? "de_CH" : "en_GB"}>
+    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  </head>
+  <body class="min-h-screen">
+    <Nav lang={lang} altLangUrl={altLangUrl} />
+    <main class="mx-auto w-full max-w-7xl"><slot /></main>
+    <footer
+      class="py-8 px-6 text-center text-sm"
+      style="color: var(--color-accent); border-top: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);"
+    >
+      <p class="mb-2">
+        <a
+          href="https://instagram.com/alec250661"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 hover:opacity-70 transition-opacity"
+        >
+          <InstagramIcon size={18} />
+          <span>@alec250661</span>
+        </a>
+      </p>
+      <p>
+        &copy; {new Date().getFullYear()} ALEC. All artwork images are copyright
+        of ALEC. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>

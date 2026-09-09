@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/cormorant-garamond";
+
+@theme {
+  --color-background: #f7f5f2;
+  --color-foreground: #1a1a18;
+  --color-accent: #8c8070;
+  --font-heading: "Cormorant Garamond Variable", Georgia, serif;
+  --font-body: "Inter Variable", system-ui, sans-serif;
+}
+
+body {
+	background-color: var(--color-background);
+	color: var(--color-foreground);
+	font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-heading);
+}
+
+.notes a {
+	color: var(--color-accent);
+	transition: opacity 150ms;
+}
+
+.notes a:hover {
+	opacity: 0.7;
+}

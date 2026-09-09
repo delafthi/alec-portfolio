@@ -1,0 +1,12 @@
+---
+// Required by Astro's i18n routing (`redirectToDefaultLocale`) — without a
+// root index page the build fails. In production, the `force` redirects in
+// netlify.toml shadow this page with an instant, language-sniffed 302.
+// This meta-refresh page only remains as the fallback (e.g. local preview).
+---
+
+<html lang="en">
+  <body>
+    <a href="/en/">ALEC</a>
+  </body>
+</html>

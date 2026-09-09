@@ -1,0 +1,131 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import InstagramIcon from "@components/InstagramIcon.astro";
+import type { Lang } from "@i18n/ui";
+import { ui } from "@i18n/ui";
+
+interface Props {
+  lang: Lang;
+  altLangUrl?: string;
+}
+
+const { lang, altLangUrl } = Astro.props;
+const t = ui[lang];
+
+const links = [
+  { href: getRelativeLocaleUrl(lang, "/portfolio"), label: t.portfolio },
+  { href: getRelativeLocaleUrl(lang, "/exhibitions"), label: t.exhibitions },
+  { href: getRelativeLocaleUrl(lang, "/about"), label: t.about },
+  { href: getRelativeLocaleUrl(lang, "/contact"), label: t.contact },
+];
+
+const altLang = lang === "de" ? "en" : "de";
+const hasLocalePrefix = /^\/(de|en)(\/|$)/.test(Astro.url.pathname);
+const langToggleUrl =
+  (altLangUrl ??
+    (hasLocalePrefix
+      ? getRelativeLocaleUrl(altLang, Astro.url.pathname.slice(3))
+      : getRelativeLocaleUrl(altLang, "/"))) + Astro.url.search;
+---
+
+<header
+  class="py-5 px-6 md:px-12 flex items-center justify-between"
+  style="border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);"
+>
+  <a
+    href={`/${lang}/`}
+    class="text-2xl font-light tracking-wide"
+    style="font-family: var(--font-heading);"
+  >
+    ALEC
+  </a>
+
+  <!-- Hamburger button (mobile only) -->
+  <button
+    id="nav-toggle"
+    type="button"
+    class="md:hidden flex flex-col gap-1.5 p-1"
+    aria-label="Menu"
+    aria-expanded="false"
+    aria-controls="nav-menu"
+  >
+    <span
+      class="block w-6 h-px transition-all duration-300"
+      style="background: var(--color-foreground);"
+    ></span>
+    <span
+      class="block w-6 h-px transition-all duration-300"
+      style="background: var(--color-foreground);"
+    ></span>
+    <span
+      class="block w-6 h-px transition-all duration-300"
+      style="background: var(--color-foreground);"
+    ></span>
+  </button>
+
+  <!-- Nav links (desktop) -->
+  <nav id="nav-menu" class="hidden md:flex items-center gap-6 text-sm">
+    {links.map((link) => (
+      <a href={link.href} class="hover:opacity-70 transition-opacity">
+        {link.label}
+      </a>
+    ))}
+    <a
+      href={langToggleUrl}
+      class="font-medium ml-2 hover:opacity-70 transition-opacity"
+      style="color: var(--color-accent);"
+    >
+      {altLang.toUpperCase()}
+    </a>
+    <a
+      href="https://instagram.com/alec250661"
+      target="_blank"
+      rel="noopener"
+      aria-label="Instagram"
+      class="ml-1 hover:opacity-70 transition-opacity"
+    >
+      <InstagramIcon size={20} />
+    </a>
+  </nav>
+</header>
+
+<!-- Mobile menu drawer -->
+<div
+  id="nav-drawer"
+  class="flex-col gap-5 px-6 py-6 text-sm text-right"
+  style="display: none; border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent); background: var(--color-background);"
+>
+  {links.map((link) => (
+    <a href={link.href} class="hover:opacity-70 transition-opacity">
+      {link.label}
+    </a>
+  ))}
+  <a
+    href={langToggleUrl}
+    class="font-medium hover:opacity-70 transition-opacity"
+    style="color: var(--color-accent);"
+  >
+    {altLang.toUpperCase()}
+  </a>
+  <a
+    href="https://instagram.com/alec250661"
+    target="_blank"
+    rel="noopener"
+    aria-label="Instagram"
+    class="flex items-center justify-end gap-2 hover:opacity-70 transition-opacity"
+  >
+    <span>@alec250661</span>
+    <InstagramIcon size={18} />
+  </a>
+</div>
+
+<script>
+const toggle = document.getElementById("nav-toggle") as HTMLElement;
+const drawer = document.getElementById("nav-drawer") as HTMLElement;
+
+toggle.addEventListener("click", () => {
+  const opening = drawer.style.display === "none";
+  drawer.style.display = opening ? "flex" : "none";
+  toggle.setAttribute("aria-expanded", String(opening));
+});
+</script>

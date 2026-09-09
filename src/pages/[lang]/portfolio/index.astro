@@ -1,0 +1,26 @@
+---
+import ArtworkGrid from "@components/ArtworkGrid.astro";
+import type { Lang } from "@i18n/ui";
+import { getStaticPaths, useTranslations } from "@i18n/utils";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { artworkDetailBase, getArtworks, getTags } from "@lib/content";
+
+export { getStaticPaths };
+
+const lang = Astro.currentLocale as Lang;
+const t = useTranslations(lang);
+
+const [artworks, tags] = await Promise.all([getArtworks(), getTags()]);
+---
+
+<BaseLayout title={t.portfolio} lang={lang}>
+  <div class="px-6 md:px-12 py-16">
+    <h1 class="text-5xl font-light mb-10 text-center">{t.portfolio}</h1>
+    <ArtworkGrid
+      artworks={artworks}
+      lang={lang}
+      detailBasePath={artworkDetailBase(lang)}
+      tags={tags}
+    />
+  </div>
+</BaseLayout>

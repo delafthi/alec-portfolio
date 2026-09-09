@@ -1,0 +1,57 @@
+---
+import { Image } from "astro:assets";
+import type { Lang } from "@i18n/ui";
+import { getAvailabilityLabel } from "@lib/lookups";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  image: ImageMetadata;
+  availability: "available" | "not_available";
+  lang: Lang;
+  detailPath: string;
+  tags?: string[];
+  materialGroup?: string;
+}
+
+const {
+  title,
+  image,
+  availability,
+  lang,
+  detailPath,
+  tags = [],
+  materialGroup,
+} = Astro.props;
+
+// Aspect ratio known at build time; consumed by ArtworkGrid's scoped CSS to
+// size masonry-style flex items (row height 280px).
+const ratio = image.width / image.height;
+---
+
+<article
+  class="artwork-card group relative overflow-hidden"
+  style={`--ratio: ${ratio};`}
+  data-tags={tags.join(" ")}
+  data-material-group={materialGroup}
+>
+  <a href={detailPath} class="block relative">
+    <Image
+      src={image}
+      alt={title}
+      widths={[...[320, 640, 960].filter((w) => w < image.width), image.width]}
+      sizes="(max-width: 640px) 100vw, 33vw"
+      loading="lazy"
+      class="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+    />
+    <div
+      class="absolute inset-0 flex flex-col justify-end p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100"
+      style="background: linear-gradient(to top, rgba(26,26,24,0.75) 0%, transparent 60%);"
+    >
+      <h3 class="text-white text-lg font-light">{title}</h3>
+      {availability === "available" && (
+          <span class="text-xs text-white/80 mt-1">{getAvailabilityLabel(availability, lang)}</span>
+        )}
+    </div>
+  </a>
+</article>

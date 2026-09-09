@@ -1,0 +1,323 @@
+---
+import type { Lang } from "@i18n/ui";
+import { ui } from "@i18n/ui";
+import type { ArtworkEntry, TagEntry } from "@lib/content";
+import { computeFilterOptions } from "@lib/filters";
+import { MATERIAL_GROUP_LABELS, MATERIAL_GROUP_MAP } from "@lib/lookups";
+import ArtworkCard from "./ArtworkCard.astro";
+
+interface Props {
+  artworks: ArtworkEntry[];
+  lang: Lang;
+  detailBasePath: string;
+  tags?: TagEntry[];
+}
+
+const { artworks, lang, detailBasePath, tags = [] } = Astro.props;
+const t = ui[lang];
+
+const { visibleTags, visibleGroups } = computeFilterOptions(artworks, tags);
+const hasFilters = visibleTags.length > 0 || visibleGroups.length > 0;
+---
+
+{hasFilters && (
+    <div class="relative mb-8 flex justify-center">
+      <div class="flex flex-nowrap gap-2 justify-center items-center overflow-hidden w-full" id="tag-filters">
+        <button type="button" class="tag-btn active flex-none" data-filter="all" data-filter-type="all">
+          {t.all}
+        </button>
+        {visibleTags.length > 0 && (
+          <>
+            <span class="filter-divider flex-none" aria-hidden="true" data-divider />
+            {visibleTags.map((tag) => (
+              <button type="button" class="tag-btn flex-none" data-filter={tag.id} data-filter-type="tag" data-group="tag">
+                {tag.data.label[lang]}
+              </button>
+            ))}
+          </>
+        )}
+        {visibleGroups.length > 0 && (
+          <>
+            <span class="filter-divider flex-none" aria-hidden="true" data-divider />
+            {visibleGroups.map((group) => (
+              <button type="button" class="tag-btn flex-none" data-filter={group} data-filter-type="material" data-group="material">
+                {MATERIAL_GROUP_LABELS[group][lang]}
+              </button>
+            ))}
+          </>
+        )}
+        <button
+          id="more-filters-btn"
+          type="button"
+          class="tag-btn more-btn flex-none"
+          aria-expanded="false"
+          data-label={t.label}
+          style="display:none"
+        >{t.label}</button>
+      </div>
+      <div id="more-filters-panel" class="more-panel" style="display:none" aria-hidden="true">
+        {/* overflow buttons inserted by JS */}
+      </div>
+    </div>
+  )}
+
+<div class="flex flex-wrap items-center gap-2" id="artwork-grid">
+  {artworks.map((artwork) => (
+      <ArtworkCard
+        title={artwork.data.title[lang]}
+        image={artwork.data.image}
+        availability={artwork.data.availability}
+        lang={lang}
+        detailPath={`${detailBasePath}/${artwork.id}/`}
+        tags={artwork.data.tags ?? []}
+        materialGroup={MATERIAL_GROUP_MAP[artwork.data.materials]}
+      />
+    ))}
+  <div class="grow-[10]" aria-hidden="true"></div>
+</div>
+
+<style>
+.tag-btn {
+  padding: 0.375rem 1rem;
+  font-size: 0.8125rem;
+  border: 1px solid color-mix(in srgb, var(--color-foreground) 25%, transparent);
+  color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+  transition:
+    border-color 150ms,
+    color 150ms;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tag-btn:hover {
+  border-color: color-mix(in srgb, var(--color-foreground) 60%, transparent);
+  color: var(--color-foreground);
+}
+.tag-btn.active {
+  border-color: var(--color-foreground);
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+.filter-divider {
+  display: inline-block;
+  width: 1px;
+  height: 1.25rem;
+  background: color-mix(in srgb, var(--color-foreground) 20%, transparent);
+  margin: 0 0.25rem;
+  align-self: center;
+}
+.more-panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-background);
+  border: 1px solid color-mix(in srgb, var(--color-foreground) 20%, transparent);
+  padding: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  z-index: 10;
+  min-width: 12rem;
+  max-width: min(28rem, 90vw);
+  box-shadow: 0 4px 12px
+    color-mix(in srgb, var(--color-foreground) 8%, transparent);
+}
+.more-panel .filter-divider {
+  width: 100%;
+  height: 1px;
+  margin: 0.125rem 0;
+}
+
+#artwork-grid :global(.artwork-card) {
+  flex-grow: var(--ratio);
+  flex-basis: calc(var(--ratio) * 280px); /* row height */
+  min-width: 150px;
+}
+
+@media (max-width: 639px) {
+  #artwork-grid :global(.artwork-card) {
+    flex-grow: 1;
+    flex-basis: 100%;
+    min-width: 0;
+  }
+}
+</style>
+
+<script>
+const grid = document.getElementById("artwork-grid") as HTMLElement;
+const cards = grid.querySelectorAll<HTMLElement>(".artwork-card");
+
+import {
+  type ActiveFilters,
+  buildActiveFilterUrl,
+  isFiltersEmpty,
+  matchesActiveFilters,
+  parseActiveFilters,
+} from "@lib/filters";
+
+let activeFilters: ActiveFilters = parseActiveFilters(window.location.search);
+
+const filterRow = document.getElementById("tag-filters");
+const moreBtn = document.getElementById(
+  "more-filters-btn",
+) as HTMLButtonElement | null;
+const morePanel = document.getElementById("more-filters-panel");
+
+const filterLabel = moreBtn?.dataset.label ?? "Filter";
+
+function updateCardLinks() {
+  cards.forEach((card) => {
+    const link = card.querySelector("a");
+    if (!link) return;
+    link.href = buildActiveFilterUrl(link.href, activeFilters);
+  });
+}
+
+function getAllFilterBtns(): HTMLButtonElement[] {
+  return [
+    ...(filterRow?.querySelectorAll<HTMLButtonElement>(
+      ".tag-btn[data-filter]",
+    ) ?? []),
+    ...(morePanel?.querySelectorAll<HTMLButtonElement>(
+      ".tag-btn[data-filter]",
+    ) ?? []),
+  ];
+}
+
+function syncButtonState() {
+  getAllFilterBtns().forEach((btn) => {
+    if (btn === moreBtn) return;
+    const filter = btn.dataset.filter as string;
+    const type = btn.dataset.filterType as "all" | "tag" | "material";
+    let active = false;
+    if (type === "all") {
+      active = isFiltersEmpty(activeFilters);
+    } else if (type === "tag") {
+      active = activeFilters.tag === filter;
+    } else if (type === "material") {
+      active = activeFilters.material === filter;
+    }
+    btn.classList.toggle("active", active);
+  });
+
+  // Update toggle button label and active state
+  if (moreBtn) {
+    const count =
+      (activeFilters.tag ? 1 : 0) + (activeFilters.material ? 1 : 0);
+    moreBtn.textContent = count > 0 ? `${filterLabel} (${count})` : filterLabel;
+    const panelHasActive = !isFiltersEmpty(activeFilters);
+    moreBtn.classList.toggle("active", panelHasActive);
+  }
+}
+
+function applyFilters() {
+  cards.forEach((c) => {
+    const tags = c.dataset.tags?.split(" ").filter(Boolean) ?? [];
+    const group = c.dataset.materialGroup ?? "";
+    c.style.display = matchesActiveFilters(tags, group, activeFilters)
+      ? ""
+      : "none";
+  });
+  updateCardLinks();
+  syncButtonState();
+}
+
+function handleFilterClick(btn: HTMLButtonElement) {
+  const filter = btn.dataset.filter as string;
+  const type = btn.dataset.filterType as "all" | "tag" | "material";
+
+  if (type === "all") {
+    activeFilters = { tag: null, material: null };
+  } else if (type === "tag") {
+    activeFilters = {
+      ...activeFilters,
+      tag: activeFilters.tag === filter ? null : filter,
+    };
+  } else if (type === "material") {
+    activeFilters = {
+      ...activeFilters,
+      material: activeFilters.material === filter ? null : filter,
+    };
+  }
+
+  applyFilters();
+}
+
+// --- overflow logic ---
+// capture original order once (excluding moreBtn)
+const originalOrder = filterRow
+  ? ([...filterRow.children] as HTMLElement[]).filter((el) => el !== moreBtn)
+  : [];
+
+function setupOverflow() {
+  if (!filterRow || !moreBtn || !morePanel) return;
+
+  // restore all items to row in original order
+  originalOrder.forEach((el) => {
+    el.style.display = "";
+    filterRow.insertBefore(el, moreBtn);
+  });
+  moreBtn.style.display = "none";
+  morePanel.style.display = "none";
+  morePanel.setAttribute("aria-hidden", "true");
+  moreBtn.setAttribute("aria-expanded", "false");
+
+  filterRow.getBoundingClientRect();
+
+  const rowRight = filterRow.getBoundingClientRect().right;
+
+  // Check if any item overflows the row
+  const anyOverflow = originalOrder.some(
+    (el) => el.getBoundingClientRect().right > rowRight + 1,
+  );
+
+  if (!anyOverflow) return;
+
+  // Collapse ALL items into the panel
+  originalOrder.forEach((el) => {
+    morePanel.appendChild(el);
+  });
+
+  const count = (activeFilters.tag ? 1 : 0) + (activeFilters.material ? 1 : 0);
+  moreBtn.textContent = count > 0 ? `${filterLabel} (${count})` : filterLabel;
+  moreBtn.style.display = "";
+}
+
+// toggle panel open/close
+moreBtn?.addEventListener("click", () => {
+  if (!morePanel || !moreBtn) return;
+  const open = morePanel.style.display !== "none";
+  morePanel.style.display = open ? "none" : "";
+  morePanel.setAttribute("aria-hidden", open ? "true" : "false");
+  moreBtn.setAttribute("aria-expanded", open ? "false" : "true");
+});
+
+// close panel when clicking outside
+document.addEventListener("click", (e) => {
+  if (!morePanel || !moreBtn) return;
+  if (
+    !filterRow?.contains(e.target as Node) &&
+    !morePanel.contains(e.target as Node)
+  ) {
+    morePanel.style.display = "none";
+    morePanel.setAttribute("aria-hidden", "true");
+    moreBtn.setAttribute("aria-expanded", "false");
+  }
+});
+
+applyFilters();
+setupOverflow();
+const ro = new ResizeObserver(() => setupOverflow());
+if (filterRow) ro.observe(filterRow);
+
+// --- filter click handling (delegated) ---
+[filterRow, morePanel].forEach((container) => {
+  container?.addEventListener("click", (e) => {
+    const btn = (e.target as Element).closest<HTMLButtonElement>(".tag-btn");
+    if (!btn || btn === moreBtn) return;
+    handleFilterClick(btn);
+  });
+});
+</script>

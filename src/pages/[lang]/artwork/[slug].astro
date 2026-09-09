@@ -1,0 +1,49 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import ArtworkDetail from "@components/ArtworkDetail.astro";
+import { LANGS, type Lang } from "@i18n/ui";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getArtworks, toArtworkLightboxItems } from "@lib/content";
+
+export async function getStaticPaths() {
+  const artworks = await getArtworks();
+  return LANGS.flatMap((lang) =>
+    artworks.map((artwork, i) => ({
+      params: { lang, slug: artwork.id },
+      props: { artwork, currentIndex: i },
+    })),
+  );
+}
+
+const lang = Astro.currentLocale as Lang;
+const { artwork, currentIndex } = Astro.props;
+const otherLang = lang === "de" ? "en" : "de";
+const altLangUrl = getRelativeLocaleUrl(otherLang, `/artwork/${artwork.id}`);
+
+const title = artwork.data.title[lang];
+const notes = artwork.data.notes?.[lang];
+// getArtworks() is cached by Astro's collection layer within a build; the
+// raw entries (not computed lightbox items) are cheap to reuse here.
+const allArtworks = await toArtworkLightboxItems(await getArtworks(), lang);
+---
+
+<BaseLayout
+  title={title}
+  lang={lang}
+  altLangUrl={altLangUrl}
+  image={allArtworks[currentIndex]?.image}
+>
+  <ArtworkDetail
+    title={title}
+    image={artwork.data.image}
+    year={artwork.data.year}
+    month={artwork.data.month}
+    size={artwork.data.size}
+    materials={artwork.data.materials}
+    notes={notes}
+    availability={artwork.data.availability}
+    lang={lang}
+    currentIndex={currentIndex}
+    allArtworks={allArtworks}
+  />
+</BaseLayout>

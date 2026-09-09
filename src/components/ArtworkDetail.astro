@@ -1,0 +1,196 @@
+---
+import { Image } from "astro:assets";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import type { Lang } from "@i18n/ui";
+import { ui } from "@i18n/ui";
+import type { ArtworkLightboxItem } from "@lib/content";
+import {
+  getAvailabilityLabel,
+  getMaterialLabel,
+  type MaterialKey,
+} from "@lib/lookups";
+import { renderInlineLinks } from "@lib/markdown";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  image: ImageMetadata;
+  year?: number;
+  month?: number;
+  size: string;
+  materials: MaterialKey;
+  notes?: string;
+  availability: "available" | "not_available";
+  lang: Lang;
+  currentIndex: number;
+  allArtworks: ArtworkLightboxItem[];
+}
+
+const {
+  title,
+  image,
+  year,
+  month,
+  size,
+  materials,
+  notes,
+  availability,
+  lang,
+  currentIndex,
+  allArtworks,
+} = Astro.props;
+const t = ui[lang];
+const materialsLabel = getMaterialLabel(materials, lang);
+const availabilityLabel = getAvailabilityLabel(availability, lang);
+const created = year
+  ? month
+    ? new Intl.DateTimeFormat(lang === "de" ? "de-CH" : "en-GB", {
+        month: "long",
+        year: "numeric",
+      }).format(new Date(year, month - 1))
+    : String(year)
+  : null;
+---
+
+<nav class="max-w-6xl mx-auto px-6 pt-8">
+  <a
+    href={getRelativeLocaleUrl(lang, "/portfolio")}
+    class="text-sm transition-opacity hover:opacity-70"
+    style="color: var(--color-accent);"
+  >
+    {t.back_to_portfolio}
+  </a>
+</nav>
+
+<article
+  class="max-w-6xl mx-auto px-6 py-12 md:grid md:grid-cols-[2fr_1fr] md:gap-16 md:items-start"
+>
+  <div class="mb-8 md:mb-0">
+    <Image
+      id="detail-image"
+      src={image}
+      alt={title}
+      widths={[image.width, ...[640, 1024, 1500, 2000].filter((w) => w < image.width)]}
+      sizes="(max-width: 1024px) 100vw, 62vw"
+      loading="eager"
+      fetchpriority="high"
+      class="w-full h-auto cursor-zoom-in"
+    />
+  </div>
+
+  <div class="flex flex-col gap-5">
+    <h1 class="text-4xl font-light">{title}</h1>
+
+    <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+      {created && <>
+        <dt class="font-medium" style="color: var(--color-accent);">{t.year}</dt>
+        <dd>{created}</dd>
+      </>}
+      {size && <>
+        <dt class="font-medium" style="color: var(--color-accent);">{t.size}</dt>
+        <dd>{size}</dd>
+      </>}
+      <dt class="font-medium" style="color: var(--color-accent);">
+        {t.materials}
+      </dt>
+      <dd>{materialsLabel}</dd>
+      {notes && <>
+        <dt class="font-medium" style="color: var(--color-accent);">{t.notes}</dt>
+        <dd class="notes" set:html={renderInlineLinks(notes)} />
+      </>}
+      <dt class="font-medium" style="color: var(--color-accent);">
+        {t.availability}
+      </dt>
+      <dd>{availabilityLabel}</dd>
+    </dl>
+
+    {availability === "available" && (
+      <a
+        href={`${getRelativeLocaleUrl(lang, "/contact")}?artwork=${encodeURIComponent(title)}`}
+        class="self-start mt-2 px-8 py-2.5 text-sm font-medium transition-opacity hover:opacity-70"
+        style="background-color: var(--color-foreground); color: var(--color-background);"
+      >
+        {t.get_in_contact}
+      </a>
+    )}
+  </div>
+</article>
+
+<!-- Lightbox overlay -->
+<div
+  id="lightbox"
+  role="dialog"
+  aria-modal="true"
+  data-artworks={JSON.stringify(allArtworks)}
+  data-current={String(currentIndex)}
+  style="display:none; position:fixed; inset:0; z-index:50; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; cursor:zoom-out;"
+>
+  <button
+    id="lb-prev"
+    type="button"
+    class="absolute left-4 md:left-8 text-6xl leading-none select-none transition-opacity hover:opacity-100"
+    style="color: rgba(255,255,255,0.7); top: 50%; transform: translateY(-50%); visibility: hidden;"
+    aria-label="Previous"
+  >
+    &#8249;
+  </button>
+
+  <div
+    id="lb-content"
+    style="cursor: default; display: flex; flex-direction: column; align-items: center; max-width: 90vw;"
+  >
+    <img
+      id="lb-img"
+      src={allArtworks[currentIndex]?.image ?? image.src}
+      alt={title}
+      style="max-height: 85vh; max-width: 90vw; object-fit: contain;"
+    >
+    <p
+      id="lb-title"
+      class="mt-4 text-xl font-light"
+      style="color: white; font-family: var(--font-heading);"
+    >
+      {title}
+    </p>
+  </div>
+
+  <button
+    id="lb-next"
+    type="button"
+    class="absolute right-4 md:right-8 text-6xl leading-none select-none transition-opacity hover:opacity-100"
+    style="color: rgba(255,255,255,0.7); top: 50%; transform: translateY(-50%); visibility: hidden;"
+    aria-label="Next"
+  >
+    &#8250;
+  </button>
+
+  <button
+    id="lb-close"
+    type="button"
+    class="absolute top-4 right-6 text-4xl leading-none transition-opacity hover:opacity-100"
+    style="color: rgba(255,255,255,0.7);"
+    aria-label="Close"
+  >
+    &times;
+  </button>
+</div>
+
+<script>
+import { initLightbox } from "@lib/lightbox";
+
+const lightbox = document.getElementById("lightbox");
+document
+  .getElementById("lb-content")
+  ?.addEventListener("click", (e) => e.stopPropagation());
+if (lightbox) {
+  initLightbox({
+    lightbox,
+    img: document.getElementById("lb-img") as HTMLImageElement,
+    title: document.getElementById("lb-title") as HTMLElement,
+    prev: document.getElementById("lb-prev") as HTMLButtonElement,
+    next: document.getElementById("lb-next") as HTMLButtonElement,
+    close: document.getElementById("lb-close") as HTMLElement,
+    trigger: document.getElementById("detail-image") as HTMLElement,
+  });
+}
+</script>

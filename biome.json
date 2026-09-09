@@ -38,7 +38,8 @@
       "!.direnv",
       "!.rumdl_cache",
       "!dist",
-      "!node_modules"
+      "!node_modules",
+      "!.netlify"
     ]
   },
   "overrides": [

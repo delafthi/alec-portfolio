@@ -1,0 +1,25 @@
+[build]
+command = "pnpm run build"
+publish = "dist"
+
+# Browser-language redirect for the root page. Astro's i18n fallback is a
+# 2s meta-refresh page; this replaces it with an instant server redirect.
+[[redirects]]
+from = "/"
+to = "/de/"
+status = 302
+force = true
+conditions = { Language = ["de"] }
+
+[[redirects]]
+from = "/"
+to = "/en/"
+status = 302
+force = true
+
+# Fingerprinted build assets are safe to cache forever.
+[[headers]]
+for = "/_astro/*"
+
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"

@@ -1,0 +1,32 @@
+name: Update npm packages
+on:
+  # Run after the flake lock update completes each week
+  workflow_run:
+    workflows: ["Update flake lock"]
+    types: [completed]
+  workflow_dispatch:
+jobs:
+  update:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v21
+      - name: Update npm packages
+        run: nix develop --command pnpm update
+      - name: Build
+        run: nix develop --command pnpm run build
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: "chore(deps): update npm packages"
+          title: "chore(deps): update npm packages"
+          labels: |
+            auto-merge
+            dependencies

@@ -1,0 +1,18 @@
+name: Scheduled rebuild
+# Exhibitions are split into upcoming/past at build time; a weekly rebuild
+# keeps the split fresh without content commits. Requires the repo secret
+# NETLIFY_BUILD_HOOK_URL (Netlify UI → Site configuration → Build & deploy →
+# Continuous deployment → Build hooks).
+on:
+  schedule:
+    - cron: '30 3 * * 1'
+  workflow_dispatch:
+jobs:
+  trigger-netlify-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Trigger Netlify build hook
+        run: curl -sf -X POST "$NETLIFY_BUILD_HOOK_URL"
+        env:
+          NETLIFY_BUILD_HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}

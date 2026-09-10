@@ -33,7 +33,7 @@ const { upcoming } = splitExhibitions(exhibitions);
           </p>
           <p class="text-sm" style="color: var(--color-accent);">{ex.data.location}</p>
           <p class="text-sm">
-            {formatDateRange(ex.data.startDate, ex.data.endDate, lang, { month: "long", year: "numeric" })}
+            {formatDateRange(ex.data.startDate, ex.data.endDate, lang)}
           </p>
         </li>
       ))}

@@ -38,7 +38,11 @@ export async function getArtworks(opts?: { featured?: boolean }) {
     const filtered = opts?.featured
         ? artworks.filter((a) => a.data.featured)
         : artworks;
-    return filtered.toSorted((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0));
+    return filtered.toSorted(
+        (a, b) =>
+            (b.data.year ?? 0) - (a.data.year ?? 0) ||
+            (b.data.month ?? 0) - (a.data.month ?? 0),
+    );
 }
 
 export async function getExhibitions() {

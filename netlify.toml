@@ -2,6 +2,14 @@
 command = "pnpm run build"
 publish = "dist"
 
+# Canonical hostname: www redirects to apex. Needs force because the language
+# rules below would otherwise serve the site on both hostnames.
+[[redirects]]
+from = "https://www.alecs.pictures/*"
+to = "https://alecs.pictures/:splat"
+status = 301
+force = true
+
 # Browser-language redirect for the root page. Astro's i18n fallback is a
 # 2s meta-refresh page; this replaces it with an instant server redirect.
 [[redirects]]

@@ -201,11 +201,24 @@ if (!g[backNavGuard]) {
   );
 }
 
-const lightbox = document.getElementById("lightbox");
-document
-  .getElementById("lb-content")
-  ?.addEventListener("click", (e) => e.stopPropagation());
-if (lightbox) {
+// Bundled module scripts run only once per session while the page DOM is
+// replaced on every ClientRouter transition. Re-init on astro:page-load so
+// the fresh DOM gets its listeners back.
+let teardown: (() => void) | null = null;
+
+function initDetail() {
+  teardown?.();
+  teardown = null;
+
+  const lightbox = document.getElementById("lightbox");
+  if (!lightbox) return;
+
+  const ac = new AbortController();
+  teardown = () => ac.abort();
+
+  document
+    .getElementById("lb-content")
+    ?.addEventListener("click", (e) => e.stopPropagation());
   initLightbox({
     lightbox,
     img: document.getElementById("lb-img") as HTMLImageElement,
@@ -214,6 +227,9 @@ if (lightbox) {
     next: document.getElementById("lb-next") as HTMLButtonElement,
     close: document.getElementById("lb-close") as HTMLElement,
     trigger: document.getElementById("detail-image") as HTMLElement,
+    signal: ac.signal,
   });
 }
+
+document.addEventListener("astro:page-load", initDetail);
 </script>

@@ -9,6 +9,9 @@ export interface LightboxElements {
     next: HTMLButtonElement;
     close: HTMLElement;
     trigger: HTMLElement;
+    // Aborted on re-init (ClientRouter swap): drops the document-level
+    // listener. Element listeners die with the swapped-out DOM on their own.
+    signal?: AbortSignal;
 }
 
 function applyTint(img: HTMLImageElement) {
@@ -54,6 +57,7 @@ export function initLightbox({
     next: lbNext,
     close: lbClose,
     trigger,
+    signal,
 }: LightboxElements): void {
     const allArtworks: ArtworkLightboxItem[] = JSON.parse(
         lightbox.dataset.artworks ?? "[]",
@@ -153,27 +157,32 @@ export function initLightbox({
         if (idx < artworks.length - 1) showSlide(idx + 1);
     });
 
-    document.addEventListener("keydown", (e) => {
-        if (lightbox.style.display !== "flex") return;
-        if (e.key === "Escape") close();
-        if (e.key === "ArrowLeft" && idx > 0) showSlide(idx - 1);
-        if (e.key === "ArrowRight" && idx < artworks.length - 1)
-            showSlide(idx + 1);
-        if (e.key === "Tab") {
-            const focusable = lightbox.querySelectorAll<HTMLElement>(
-                'button:not([style*="visibility: hidden"])',
-            );
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-            if (e.shiftKey && document.activeElement === first) {
-                e.preventDefault();
-                last.focus();
-            } else if (!e.shiftKey && document.activeElement === last) {
-                e.preventDefault();
-                first.focus();
+    // document persists across transitions; scope its listener to this init.
+    document.addEventListener(
+        "keydown",
+        (e) => {
+            if (lightbox.style.display !== "flex") return;
+            if (e.key === "Escape") close();
+            if (e.key === "ArrowLeft" && idx > 0) showSlide(idx - 1);
+            if (e.key === "ArrowRight" && idx < artworks.length - 1)
+                showSlide(idx + 1);
+            if (e.key === "Tab") {
+                const focusable = lightbox.querySelectorAll<HTMLElement>(
+                    'button:not([style*="visibility: hidden"])',
+                );
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
             }
-        }
-    });
+        },
+        { signal },
+    );
 
     let touchStartX = 0;
     lightbox.addEventListener(

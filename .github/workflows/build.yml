@@ -10,7 +10,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v21
+        uses: DeterminateSystems/nix-installer-action@v23
       - name: Install dependencies
         run: nix develop --command pnpm install --frozen-lockfile
       - name: Check

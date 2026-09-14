@@ -1,6 +1,10 @@
 [build]
 command = "pnpm run build"
 publish = "dist"
+# Automated dependency merges (flake/npm/dependabot) don't build on push;
+# the weekly scheduled rebuild deploys them in one batch. Content commits
+# still deploy instantly.
+ignore = "bash scripts/netlify-ignore.sh"
 
 # Canonical hostname: www redirects to apex. Needs force because the language
 # rules below would otherwise serve the site on both hostnames.

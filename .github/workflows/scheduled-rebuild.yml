@@ -1,11 +1,14 @@
 name: Scheduled rebuild
 # Exhibitions are split into upcoming/past at build time; a weekly rebuild
-# keeps the split fresh without content commits. Requires the repo secret
-# NETLIFY_BUILD_HOOK_URL (Netlify UI → Site configuration → Build & deploy →
-# Continuous deployment → Build hooks).
+# keeps the split fresh without content commits. It also deploys the week's
+# automated dependency merges in one batch — those skip the per-push Netlify
+# build (see `ignore` in netlify.toml). Runs Tuesday morning so all Monday
+# automation (flake 02:00, npm, dependabot) has merged. Requires the repo
+# secret NETLIFY_BUILD_HOOK_URL (Netlify UI → Site configuration → Build &
+# deploy → Continuous deployment → Build hooks).
 on:
   schedule:
-    - cron: '30 3 * * 1'
+    - cron: '0 6 * * 2'
   workflow_dispatch:
 jobs:
   trigger-netlify-build:

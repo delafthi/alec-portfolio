@@ -86,6 +86,12 @@ slugs are refused.
 | `auto-merge.yml` | PR labeled `auto-merge` | enables auto-merge for dependency PRs |
 | `update-flake.yml` | Mon 2:00 UTC / manual | `nix flake update`, opens PR labeled `auto-merge` + `dependencies` |
 | `update-npm.yml` | after flake update / manual | `pnpm update`, opens PR labeled `auto-merge` + `dependencies` |
+| `scheduled-rebuild.yml` | Tue 6:00 UTC / manual | triggers Netlify build hook — weekly exhibition split refresh + batched deploy of dependency merges |
+
+Netlify skips per-push builds when every new commit is an automated
+dependency update (`ignore` in `netlify.toml` → `scripts/netlify-ignore.sh`);
+the weekly scheduled rebuild deploys them in one batch. Content commits
+deploy instantly as before.
 
 ## Linting & Formatting
 

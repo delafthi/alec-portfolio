@@ -52,6 +52,7 @@ export interface ArtworkLightboxItem {
     url: string;
     tags: string[];
     materialGroup: string;
+    availability: string;
 }
 
 export function artworkDetailBase(lang: Lang): string {
@@ -76,6 +77,7 @@ export async function toArtworkLightboxItems(
             url: `${detailBase}/${a.id}/`,
             tags: a.data.tags ?? [],
             materialGroup: MATERIAL_GROUP_MAP[a.data.materials],
+            availability: a.data.availability,
         });
     }
     return items;

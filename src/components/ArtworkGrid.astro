@@ -3,7 +3,11 @@ import type { Lang } from "@i18n/ui";
 import { ui } from "@i18n/ui";
 import type { ArtworkEntry, TagEntry } from "@lib/content";
 import { computeFilterOptions } from "@lib/filters";
-import { MATERIAL_GROUP_LABELS, MATERIAL_GROUP_MAP } from "@lib/lookups";
+import {
+  AVAILABILITY_LABELS,
+  MATERIAL_GROUP_LABELS,
+  MATERIAL_GROUP_MAP,
+} from "@lib/lookups";
 import ArtworkCard from "./ArtworkCard.astro";
 
 interface Props {
@@ -16,8 +20,12 @@ interface Props {
 const { artworks, lang, detailBasePath, tags = [] } = Astro.props;
 const t = ui[lang];
 
-const { visibleTags, visibleGroups } = computeFilterOptions(artworks, tags);
-const hasFilters = visibleTags.length > 0 || visibleGroups.length > 0;
+const { visibleTags, visibleGroups, visibleAvailability } =
+  computeFilterOptions(artworks, tags);
+const hasFilters =
+  visibleTags.length > 0 ||
+  visibleGroups.length > 0 ||
+  visibleAvailability.length > 0;
 ---
 
 {hasFilters && (
@@ -42,6 +50,16 @@ const hasFilters = visibleTags.length > 0 || visibleGroups.length > 0;
             {visibleGroups.map((group) => (
               <button type="button" class="tag-btn flex-none" data-filter={group} data-filter-type="material" data-group="material">
                 {MATERIAL_GROUP_LABELS[group][lang]}
+              </button>
+            ))}
+          </>
+        )}
+        {visibleAvailability.length > 0 && (
+          <>
+            <span class="filter-divider flex-none" aria-hidden="true" data-divider />
+            {visibleAvailability.map((key) => (
+              <button type="button" class="tag-btn flex-none" data-filter={key} data-filter-type="availability" data-group="availability">
+                {AVAILABILITY_LABELS[key][lang]}
               </button>
             ))}
           </>
@@ -156,6 +174,7 @@ import {
   matchesActiveFilters,
   parseActiveFilters,
 } from "@lib/filters";
+import type { AvailabilityKey } from "@lib/lookups";
 
 let activeFilters: ActiveFilters = parseActiveFilters(window.location.search);
 
@@ -190,7 +209,11 @@ function syncButtonState() {
   getAllFilterBtns().forEach((btn) => {
     if (btn === moreBtn) return;
     const filter = btn.dataset.filter as string;
-    const type = btn.dataset.filterType as "all" | "tag" | "material";
+    const type = btn.dataset.filterType as
+      | "all"
+      | "tag"
+      | "material"
+      | "availability";
     let active = false;
     if (type === "all") {
       active = isFiltersEmpty(activeFilters);
@@ -198,6 +221,8 @@ function syncButtonState() {
       active = activeFilters.tag === filter;
     } else if (type === "material") {
       active = activeFilters.material === filter;
+    } else if (type === "availability") {
+      active = activeFilters.availability === filter;
     }
     btn.classList.toggle("active", active);
   });
@@ -205,7 +230,9 @@ function syncButtonState() {
   // Update toggle button label and active state
   if (moreBtn) {
     const count =
-      (activeFilters.tag ? 1 : 0) + (activeFilters.material ? 1 : 0);
+      (activeFilters.tag ? 1 : 0) +
+      (activeFilters.material ? 1 : 0) +
+      (activeFilters.availability ? 1 : 0);
     moreBtn.textContent = count > 0 ? `${filterLabel} (${count})` : filterLabel;
     const panelHasActive = !isFiltersEmpty(activeFilters);
     moreBtn.classList.toggle("active", panelHasActive);
@@ -216,7 +243,13 @@ function applyFilters() {
   cards.forEach((c) => {
     const tags = c.dataset.tags?.split(" ").filter(Boolean) ?? [];
     const group = c.dataset.materialGroup ?? "";
-    c.style.display = matchesActiveFilters(tags, group, activeFilters)
+    const availability = c.dataset.availability ?? "";
+    c.style.display = matchesActiveFilters(
+      tags,
+      group,
+      availability,
+      activeFilters,
+    )
       ? ""
       : "none";
   });
@@ -226,10 +259,14 @@ function applyFilters() {
 
 function handleFilterClick(btn: HTMLButtonElement) {
   const filter = btn.dataset.filter as string;
-  const type = btn.dataset.filterType as "all" | "tag" | "material";
+  const type = btn.dataset.filterType as
+    | "all"
+    | "tag"
+    | "material"
+    | "availability";
 
   if (type === "all") {
-    activeFilters = { tag: null, material: null };
+    activeFilters = { tag: null, material: null, availability: null };
   } else if (type === "tag") {
     activeFilters = {
       ...activeFilters,
@@ -239,6 +276,14 @@ function handleFilterClick(btn: HTMLButtonElement) {
     activeFilters = {
       ...activeFilters,
       material: activeFilters.material === filter ? null : filter,
+    };
+  } else if (type === "availability") {
+    activeFilters = {
+      ...activeFilters,
+      availability:
+        activeFilters.availability === filter
+          ? null
+          : (filter as AvailabilityKey),
     };
   }
 
@@ -280,7 +325,10 @@ function setupOverflow() {
     morePanel.appendChild(el);
   });
 
-  const count = (activeFilters.tag ? 1 : 0) + (activeFilters.material ? 1 : 0);
+  const count =
+    (activeFilters.tag ? 1 : 0) +
+    (activeFilters.material ? 1 : 0) +
+    (activeFilters.availability ? 1 : 0);
   moreBtn.textContent = count > 0 ? `${filterLabel} (${count})` : filterLabel;
   moreBtn.style.display = "";
 }

@@ -61,7 +61,12 @@ export function initLightbox({
 
     const activeFilter = parseActiveFilters(window.location.search);
     const artworks = allArtworks.filter((a) =>
-        matchesActiveFilters(a.tags, a.materialGroup, activeFilter),
+        matchesActiveFilters(
+            a.tags,
+            a.materialGroup,
+            a.availability,
+            activeFilter,
+        ),
     );
 
     const currentId =

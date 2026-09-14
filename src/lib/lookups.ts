@@ -116,6 +116,8 @@ const availabilityByKey = Object.fromEntries(
     availability.availability.map((a) => [a.key, a.label]),
 ) as unknown as Record<AvailabilityKey, { de: string; en: string }>;
 
+export const AVAILABILITY_LABELS = availabilityByKey;
+
 export function getMaterialLabel(key: MaterialKey, lang: Lang): string {
     return materialsByKey[key].label[lang];
 }

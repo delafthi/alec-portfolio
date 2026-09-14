@@ -1,8 +1,8 @@
 {
   "$schema": "../schemas/artwork.schema.json",
   "title": {
-    "de": "Witwe",
-    "en": "Widow"
+    "de": "Indische Witwe",
+    "en": "Indian Widow"
   },
   "year": 2026,
   "month": 8,

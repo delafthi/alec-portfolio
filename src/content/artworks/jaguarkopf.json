@@ -8,7 +8,7 @@
   "month": 10,
   "size": "A3",
   "materials": "pastel_photo",
-  "availability": "available",
+  "availability": "not_available",
   "image": "../../assets/artworks/jaguarkopf.jpg",
   "featured": false,
   "tags": ["animals"]

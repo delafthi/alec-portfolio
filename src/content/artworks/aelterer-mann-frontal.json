@@ -4,9 +4,11 @@
     "de": "Älterer Mann, frontal",
     "en": "Older Man, Frontal"
   },
+  "year": 2020,
+  "month": 1,
   "size": "A5",
   "materials": "pencil_chalk",
-  "availability": "available",
+  "availability": "not_available",
   "image": "../../assets/artworks/aelterer-mann-frontal.jpg",
   "featured": false,
   "tags": ["portrait", "sketch"]

@@ -4,11 +4,13 @@
     "de": "Mann mit Schnauz",
     "en": "Man with Moustache"
   },
+  "year": 2019,
+  "month": 9,
   "notes": {
     "de": "Auftragswerk",
     "en": "Commissioned work"
   },
-  "size": "50 × 60 cm",
+  "size": "60 × 50 cm",
   "materials": "oil_canvas",
   "availability": "not_available",
   "image": "../../assets/artworks/mann-mit-schnauz.jpg",

@@ -8,7 +8,7 @@
   "month": 4,
   "size": "A3",
   "materials": "pencil",
-  "availability": "available",
+  "availability": "not_available",
   "image": "../../assets/artworks/lachende-frau-blick-nach-oben.jpg",
   "featured": false,
   "tags": ["portrait", "sketch"]

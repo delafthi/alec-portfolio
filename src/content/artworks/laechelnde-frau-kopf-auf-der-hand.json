@@ -1,12 +1,12 @@
 {
   "$schema": "../schemas/artwork.schema.json",
   "title": {
-    "de": "Lächelnde Frau, Kopf auf der Hand",
-    "en": "Smiling Woman, Head on Hand"
+    "de": "Iris mit Kopf auf Hand",
+    "en": "Iris with Head on Hand"
   },
   "size": "A5",
-  "materials": "pencil",
-  "availability": "available",
+  "materials": "pencil_notebook",
+  "availability": "not_available",
   "image": "../../assets/artworks/laechelnde-frau-kopf-auf-der-hand.jpg",
   "featured": false,
   "tags": ["portrait", "sketch"]

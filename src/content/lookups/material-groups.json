@@ -18,8 +18,8 @@
     {
       "key": "pastel",
       "label": {
-        "en": "Pastel",
-        "de": "Pastell"
+        "en": "Pastel chalk",
+        "de": "Pastellkreide"
       }
     },
     {
@@ -32,8 +32,8 @@
     {
       "key": "pencil",
       "label": {
-        "en": "Pencil",
-        "de": "Bleistift"
+        "en": "Pencil sketch",
+        "de": "Bleistift-Skizze"
       }
     },
     {

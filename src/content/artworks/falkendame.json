@@ -4,11 +4,13 @@
     "de": "Falkendame",
     "en": "Falcon"
   },
+  "year": 2021,
+  "month": 9,
   "notes": {
     "de": "Pittpastell",
     "en": "Pitt pastel"
   },
-  "size": "50 × 70 cm",
+  "size": "70 × 50 cm",
   "materials": "pastel_photo",
   "availability": "available",
   "image": "../../assets/artworks/falkendame.jpg",

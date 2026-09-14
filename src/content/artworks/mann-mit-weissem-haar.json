@@ -6,9 +6,13 @@
   },
   "year": 2022,
   "month": 2,
-  "size": "50 × 60 cm",
+  "notes": {
+    "de": "Auftragswerk",
+    "en": "Commissioned work"
+  },
+  "size": "60 × 50 cm",
   "materials": "oil_canvas",
-  "availability": "available",
+  "availability": "not_available",
   "image": "../../assets/artworks/mann-mit-weissem-haar.jpg",
   "featured": false,
   "tags": ["portrait"]

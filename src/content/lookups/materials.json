@@ -26,11 +26,27 @@
       }
     },
     {
+      "key": "oil_photo",
+      "group": "oil",
+      "label": {
+        "de": "Öl auf Fotokarton",
+        "en": "Oil on photo cardboard"
+      }
+    },
+    {
       "key": "acrylic_canvas",
       "group": "acrylic",
       "label": {
         "en": "Acrylic on canvas",
         "de": "Acryl auf Leinwand"
+      }
+    },
+    {
+      "key": "acrylic_linen",
+      "group": "acrylic",
+      "label": {
+        "de": "Acryl auf Leinen",
+        "en": "Acrylic on linen"
       }
     },
     {
@@ -45,8 +61,24 @@
       "key": "pencil",
       "group": "pencil",
       "label": {
-        "en": "Pencil",
-        "de": "Bleistift"
+        "en": "Pencil sketch",
+        "de": "Bleistift-Skizze"
+      }
+    },
+    {
+      "key": "pencil_notebook",
+      "group": "pencil",
+      "label": {
+        "de": "Bleistift-Skizze im Notizbuch",
+        "en": "Pencil sketch in a notebook"
+      }
+    },
+    {
+      "key": "pencil_chalk",
+      "group": "pencil",
+      "label": {
+        "de": "Bleistift-Skizze und Kreide",
+        "en": "Pencil sketch and chalk"
       }
     },
     {
@@ -69,16 +101,8 @@
       "key": "pastel_photo",
       "group": "pastel",
       "label": {
-        "en": "Pastel on photo cardboard",
-        "de": "Pastell auf Fotokarton"
-      }
-    },
-    {
-      "key": "pastel_chalk_charcoal_photo",
-      "group": "pastel",
-      "label": {
-        "en": "Pastel, chalk and charcoal on photo cardboard",
-        "de": "Pastell, Kreide und Kohle auf Fotokarton"
+        "en": "Pastel chalk on photo cardboard",
+        "de": "Pastellkreide auf Fotokarton"
       }
     },
     {
@@ -90,6 +114,14 @@
       }
     },
     {
+      "key": "pastel_chalk_notebook",
+      "group": "pastel",
+      "label": {
+        "de": "Pastellkreide im Notizbuch",
+        "en": "Pastel chalk in a notebook"
+      }
+    },
+    {
       "key": "pastel_ink",
       "group": "pastel",
       "label": {
@@ -98,27 +130,11 @@
       }
     },
     {
-      "key": "pencil_chalk",
-      "group": "pencil",
-      "label": {
-        "de": "Bleistift und Kreide",
-        "en": "Pencil and chalk"
-      }
-    },
-    {
       "key": "watercolour",
       "group": "watercolour",
       "label": {
         "de": "Aquarell",
         "en": "Watercolour"
-      }
-    },
-    {
-      "key": "oil_photo",
-      "group": "oil",
-      "label": {
-        "de": "Öl auf Fotokarton",
-        "en": "Oil on photo cardboard"
       }
     }
   ]

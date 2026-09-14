@@ -4,9 +4,11 @@
     "de": "Elefant",
     "en": "Elephant"
   },
+  "year": 2018,
+  "month": 2,
   "size": "A4",
   "materials": "watercolour",
-  "availability": "available",
+  "availability": "not_available",
   "image": "../../assets/artworks/elefant.jpg",
   "featured": false,
   "tags": ["animals"]

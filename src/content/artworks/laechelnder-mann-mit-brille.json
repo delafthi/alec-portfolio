@@ -8,7 +8,7 @@
   "month": 10,
   "size": "A0",
   "materials": "pencil",
-  "availability": "available",
+  "availability": "not_available",
   "image": "../../assets/artworks/laechelnder-mann-mit-brille.jpg",
   "featured": false,
   "tags": ["portrait", "sketch"]

@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import InstagramIcon from "@components/InstagramIcon.astro";
 import Nav from "@components/Nav.astro";
 import "../styles/global.css";
@@ -40,6 +41,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:locale" content={lang === "de" ? "de_CH" : "en_GB"}>
     {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <ClientRouter />
   </head>
   <body class="min-h-screen">
     <Nav lang={lang} altLangUrl={altLangUrl} />

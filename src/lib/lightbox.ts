@@ -1,3 +1,4 @@
+import { navigate } from "astro:transitions/client";
 import type { ArtworkLightboxItem } from "./content";
 import { matchesActiveFilters, parseActiveFilters } from "./filters";
 
@@ -108,13 +109,11 @@ export function initLightbox({
     }
 
     let previousFocus: HTMLElement | null = null;
-    // Snapshot of the first slide shown on open, so close() can restore the
-    // server-rendered URL/state without a full reload.
-    let openedUrl = "";
+    // Snapshot of the slide shown on open, so close() can tell whether the
+    // user moved to a different image.
     let openedIdx = -1;
 
     function open() {
-        openedUrl = window.location.href;
         openedIdx = idx;
         previousFocus = document.activeElement as HTMLElement | null;
         lightbox.style.display = "flex";
@@ -130,15 +129,10 @@ export function initLightbox({
         document.documentElement.style.removeProperty("--color-background");
         document.body.style.removeProperty("background-color");
         previousFocus?.focus();
-        if (idx !== openedIdx && openedIdx >= 0) {
-            const a = artworks[openedIdx];
-            lbImg.src = a.image;
-            lbImg.alt = a.title;
-            lbTitle.textContent = a.title;
-            idx = openedIdx;
-        }
-        if (window.location.href !== openedUrl) {
-            history.replaceState(history.state, "", openedUrl);
+        // Land on the detail page of the last-viewed slide instead of back
+        // on the page the lightbox opened from.
+        if (idx !== openedIdx && idx >= 0) {
+            navigate(artworks[idx].url + filterSuffix, { history: "replace" });
         }
     }
 

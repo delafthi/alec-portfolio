@@ -30,7 +30,16 @@ const hasFilters =
 
 {hasFilters && (
     <div class="relative mb-8 flex justify-center">
-      <div class="flex flex-nowrap gap-2 justify-center items-center overflow-hidden w-full" id="tag-filters">
+      <div class="flex flex-nowrap gap-2 justify-center items-center w-full" id="tag-filters">
+        <button
+          id="more-filters-btn"
+          type="button"
+          class="tag-btn more-btn flex-none"
+          aria-expanded="false"
+          data-label={t.label}
+        >{t.label}</button>
+      </div>
+      <div id="more-filters-panel" class="more-panel" style="display:none" aria-hidden="true">
         <button type="button" class="tag-btn active flex-none" data-filter="all" data-filter-type="all">
           {t.all}
         </button>
@@ -64,17 +73,6 @@ const hasFilters =
             ))}
           </>
         )}
-        <button
-          id="more-filters-btn"
-          type="button"
-          class="tag-btn more-btn flex-none"
-          aria-expanded="false"
-          data-label={t.label}
-          style="display:none"
-        >{t.label}</button>
-      </div>
-      <div id="more-filters-panel" class="more-panel" style="display:none" aria-hidden="true">
-        {/* overflow buttons inserted by JS */}
       </div>
     </div>
   )}
@@ -290,49 +288,6 @@ function handleFilterClick(btn: HTMLButtonElement) {
   applyFilters();
 }
 
-// --- overflow logic ---
-// capture original order once (excluding moreBtn)
-const originalOrder = filterRow
-  ? ([...filterRow.children] as HTMLElement[]).filter((el) => el !== moreBtn)
-  : [];
-
-function setupOverflow() {
-  if (!filterRow || !moreBtn || !morePanel) return;
-
-  // restore all items to row in original order
-  originalOrder.forEach((el) => {
-    el.style.display = "";
-    filterRow.insertBefore(el, moreBtn);
-  });
-  moreBtn.style.display = "none";
-  morePanel.style.display = "none";
-  morePanel.setAttribute("aria-hidden", "true");
-  moreBtn.setAttribute("aria-expanded", "false");
-
-  filterRow.getBoundingClientRect();
-
-  const rowRight = filterRow.getBoundingClientRect().right;
-
-  // Check if any item overflows the row
-  const anyOverflow = originalOrder.some(
-    (el) => el.getBoundingClientRect().right > rowRight + 1,
-  );
-
-  if (!anyOverflow) return;
-
-  // Collapse ALL items into the panel
-  originalOrder.forEach((el) => {
-    morePanel.appendChild(el);
-  });
-
-  const count =
-    (activeFilters.tag ? 1 : 0) +
-    (activeFilters.material ? 1 : 0) +
-    (activeFilters.availability ? 1 : 0);
-  moreBtn.textContent = count > 0 ? `${filterLabel} (${count})` : filterLabel;
-  moreBtn.style.display = "";
-}
-
 // toggle panel open/close
 moreBtn?.addEventListener("click", () => {
   if (!morePanel || !moreBtn) return;
@@ -356,9 +311,6 @@ document.addEventListener("click", (e) => {
 });
 
 applyFilters();
-setupOverflow();
-const ro = new ResizeObserver(() => setupOverflow());
-if (filterRow) ro.observe(filterRow);
 
 // --- filter click handling (delegated) ---
 [filterRow, morePanel].forEach((container) => {

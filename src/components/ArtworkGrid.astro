@@ -368,4 +368,21 @@ if (filterRow) ro.observe(filterRow);
     handleFilterClick(btn);
   });
 });
+
+// Remember the grid's history index on every navigation away from it, so the
+// artwork page's back link can do a real history traversal — ClientRouter
+// restores the scroll position natively for history entries. Document-level
+// listener with a guard: bundled scripts run only once per session while the
+// grid DOM is replaced on every transition.
+const gridNavGuard = "__alecGridNav";
+const g = globalThis as unknown as Record<string, boolean | undefined>;
+if (!g[gridNavGuard]) {
+  g[gridNavGuard] = true;
+  document.addEventListener("astro:before-preparation", (e) => {
+    const from = (e as { from: URL }).from;
+    if (/\/portfolio\/?$/.test(from.pathname)) {
+      sessionStorage.setItem("alec:grid-index", String(history.state?.index));
+    }
+  });
+}
 </script>

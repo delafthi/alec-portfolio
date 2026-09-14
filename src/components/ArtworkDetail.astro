@@ -55,6 +55,7 @@ const created = year
 <nav class="max-w-6xl mx-auto px-6 pt-8">
   <a
     href={getRelativeLocaleUrl(lang, "/portfolio")}
+    id="back-to-portfolio"
     class="text-sm transition-opacity hover:opacity-70"
     style="color: var(--color-accent);"
   >
@@ -177,6 +178,28 @@ const created = year
 
 <script>
 import { initLightbox } from "@lib/lightbox";
+
+// Turn the back link into a real history traversal when the previous entry is
+// the portfolio grid (index recorded by the grid page). ClientRouter then
+// restores the scroll position natively. Falls back to a plain link for
+// direct visits. Capture phase: ClientRouter skips already-prevented clicks.
+const backNavGuard = "__alecBackNav";
+const g = globalThis as unknown as Record<string, boolean | undefined>;
+if (!g[backNavGuard]) {
+  g[backNavGuard] = true;
+  document.addEventListener(
+    "click",
+    (e) => {
+      if (!(e.target as Element).closest("#back-to-portfolio")) return;
+      const from = sessionStorage.getItem("alec:grid-index");
+      if (from !== null && history.state?.index === Number(from) + 1) {
+        e.preventDefault();
+        history.back();
+      }
+    },
+    { capture: true },
+  );
+}
 
 const lightbox = document.getElementById("lightbox");
 document

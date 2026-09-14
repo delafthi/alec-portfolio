@@ -162,9 +162,6 @@ const hasFilters =
 </style>
 
 <script>
-const grid = document.getElementById("artwork-grid") as HTMLElement;
-const cards = grid.querySelectorAll<HTMLElement>(".artwork-card");
-
 import {
   type ActiveFilters,
   buildActiveFilterUrl,
@@ -172,154 +169,149 @@ import {
   matchesActiveFilters,
   parseActiveFilters,
 } from "@lib/filters";
-import type { AvailabilityKey } from "@lib/lookups";
 
-let activeFilters: ActiveFilters = parseActiveFilters(window.location.search);
+// Bundled module scripts run only once per session while the grid DOM is
+// replaced on every ClientRouter transition. Re-init on astro:page-load so
+// the fresh DOM gets its listeners back. Filter state is mirrored into the
+// URL query, so returning to the grid via history navigation restores it.
+let teardown: (() => void) | null = null;
 
-const filterRow = document.getElementById("tag-filters");
-const moreBtn = document.getElementById(
-  "more-filters-btn",
-) as HTMLButtonElement | null;
-const morePanel = document.getElementById("more-filters-panel");
-
-const filterLabel = moreBtn?.dataset.label ?? "Filter";
-
-function updateCardLinks() {
-  cards.forEach((card) => {
-    const link = card.querySelector("a");
-    if (!link) return;
-    link.href = buildActiveFilterUrl(link.href, activeFilters);
-  });
-}
-
-function getAllFilterBtns(): HTMLButtonElement[] {
-  return [
-    ...(filterRow?.querySelectorAll<HTMLButtonElement>(
-      ".tag-btn[data-filter]",
-    ) ?? []),
-    ...(morePanel?.querySelectorAll<HTMLButtonElement>(
-      ".tag-btn[data-filter]",
-    ) ?? []),
-  ];
-}
-
-function syncButtonState() {
-  getAllFilterBtns().forEach((btn) => {
-    if (btn === moreBtn) return;
-    const filter = btn.dataset.filter as string;
-    const type = btn.dataset.filterType as
-      | "all"
-      | "tag"
-      | "material"
-      | "availability";
-    let active = false;
-    if (type === "all") {
-      active = isFiltersEmpty(activeFilters);
-    } else if (type === "tag") {
-      active = activeFilters.tag === filter;
-    } else if (type === "material") {
-      active = activeFilters.material === filter;
-    } else if (type === "availability") {
-      active = activeFilters.availability === filter;
-    }
-    btn.classList.toggle("active", active);
-  });
-
-  // Update toggle button label and active state
-  if (moreBtn) {
-    const count =
-      (activeFilters.tag ? 1 : 0) +
-      (activeFilters.material ? 1 : 0) +
-      (activeFilters.availability ? 1 : 0);
-    moreBtn.textContent = count > 0 ? `${filterLabel} (${count})` : filterLabel;
-    const panelHasActive = !isFiltersEmpty(activeFilters);
-    moreBtn.classList.toggle("active", panelHasActive);
-  }
-}
-
-function applyFilters() {
+function filterCards(cards: NodeListOf<HTMLElement>, f: ActiveFilters) {
   cards.forEach((c) => {
     const tags = c.dataset.tags?.split(" ").filter(Boolean) ?? [];
-    const group = c.dataset.materialGroup ?? "";
-    const availability = c.dataset.availability ?? "";
     c.style.display = matchesActiveFilters(
       tags,
-      group,
-      availability,
-      activeFilters,
+      c.dataset.materialGroup ?? "",
+      c.dataset.availability ?? "",
+      f,
     )
       ? ""
       : "none";
   });
-  updateCardLinks();
-  syncButtonState();
 }
 
-function handleFilterClick(btn: HTMLButtonElement) {
-  const filter = btn.dataset.filter as string;
-  const type = btn.dataset.filterType as
-    | "all"
-    | "tag"
-    | "material"
-    | "availability";
+// Hide filtered cards in the incoming document before it is swapped in, so
+// the layout is already stable when ClientRouter restores the scroll
+// position — applying them only after the swap would shift the page.
+document.addEventListener("astro:before-swap", (e) => {
+  const { newDocument, to } = e as unknown as {
+    newDocument: Document;
+    to: URL;
+  };
+  const newGrid = newDocument.getElementById("artwork-grid");
+  if (newGrid)
+    filterCards(
+      newGrid.querySelectorAll<HTMLElement>(".artwork-card"),
+      parseActiveFilters(to.search),
+    );
+});
 
-  if (type === "all") {
-    activeFilters = { tag: null, material: null, availability: null };
-  } else if (type === "tag") {
-    activeFilters = {
-      ...activeFilters,
-      tag: activeFilters.tag === filter ? null : filter,
-    };
-  } else if (type === "material") {
-    activeFilters = {
-      ...activeFilters,
-      material: activeFilters.material === filter ? null : filter,
-    };
-  } else if (type === "availability") {
-    activeFilters = {
-      ...activeFilters,
-      availability:
-        activeFilters.availability === filter
-          ? null
-          : (filter as AvailabilityKey),
-    };
+function initGrid() {
+  teardown?.();
+
+  const grid = document.getElementById("artwork-grid");
+  if (!grid) return;
+  const cards = grid.querySelectorAll<HTMLElement>(".artwork-card");
+  const filterRow = document.getElementById("tag-filters");
+  const moreBtn = document.getElementById(
+    "more-filters-btn",
+  ) as HTMLButtonElement | null;
+  const morePanel = document.getElementById("more-filters-panel");
+  const filterLabel = moreBtn?.dataset.label ?? "Filter";
+
+  let activeFilters = parseActiveFilters(window.location.search);
+
+  // document persists across transitions; scope its listener to this init.
+  const ac = new AbortController();
+  teardown = () => ac.abort();
+
+  function syncButtonState() {
+    const btns =
+      morePanel?.querySelectorAll<HTMLButtonElement>(".tag-btn[data-filter]") ??
+      [];
+    btns.forEach((btn) => {
+      const type = btn.dataset.filterType as "all" | keyof ActiveFilters;
+      const active =
+        type === "all"
+          ? isFiltersEmpty(activeFilters)
+          : activeFilters[type] === btn.dataset.filter;
+      btn.classList.toggle("active", active);
+    });
+
+    if (moreBtn) {
+      const count = Object.values(activeFilters).filter(Boolean).length;
+      moreBtn.textContent =
+        count > 0 ? `${filterLabel} (${count})` : filterLabel;
+      moreBtn.classList.toggle("active", count > 0);
+    }
   }
+
+  function applyFilters() {
+    filterCards(cards, activeFilters);
+    cards.forEach((c) => {
+      const link = c.querySelector("a");
+      if (link) link.href = buildActiveFilterUrl(link.href, activeFilters);
+    });
+    syncButtonState();
+  }
+
+  function handleFilterClick(btn: HTMLButtonElement) {
+    const type = btn.dataset.filterType as "all" | keyof ActiveFilters;
+    const filter = btn.dataset.filter as string;
+
+    activeFilters =
+      type === "all"
+        ? { tag: null, material: null, availability: null }
+        : ({
+            ...activeFilters,
+            [type]: activeFilters[type] === filter ? null : filter,
+          } as ActiveFilters);
+
+    // Persist in the grid's history entry so back navigation restores it.
+    // Keep the existing state: ClientRouter stores {index, scrollY} there.
+    history.replaceState(
+      history.state,
+      "",
+      buildActiveFilterUrl(window.location.href, activeFilters),
+    );
+    applyFilters();
+  }
+
+  function setPanelOpen(open: boolean) {
+    if (!morePanel || !moreBtn) return;
+    morePanel.style.display = open ? "" : "none";
+    morePanel.setAttribute("aria-hidden", String(!open));
+    moreBtn.setAttribute("aria-expanded", String(open));
+  }
+
+  moreBtn?.addEventListener("click", () =>
+    setPanelOpen(morePanel?.style.display === "none"),
+  );
+
+  // close panel when clicking outside
+  document.addEventListener(
+    "click",
+    (e) => {
+      if (
+        !filterRow?.contains(e.target as Node) &&
+        !morePanel?.contains(e.target as Node)
+      ) {
+        setPanelOpen(false);
+      }
+    },
+    { signal: ac.signal },
+  );
+
+  // filter clicks, delegated: all filter buttons live in the panel
+  morePanel?.addEventListener("click", (e) => {
+    const btn = (e.target as Element).closest<HTMLButtonElement>(".tag-btn");
+    if (btn) handleFilterClick(btn);
+  });
 
   applyFilters();
 }
 
-// toggle panel open/close
-moreBtn?.addEventListener("click", () => {
-  if (!morePanel || !moreBtn) return;
-  const open = morePanel.style.display !== "none";
-  morePanel.style.display = open ? "none" : "";
-  morePanel.setAttribute("aria-hidden", open ? "true" : "false");
-  moreBtn.setAttribute("aria-expanded", open ? "false" : "true");
-});
-
-// close panel when clicking outside
-document.addEventListener("click", (e) => {
-  if (!morePanel || !moreBtn) return;
-  if (
-    !filterRow?.contains(e.target as Node) &&
-    !morePanel.contains(e.target as Node)
-  ) {
-    morePanel.style.display = "none";
-    morePanel.setAttribute("aria-hidden", "true");
-    moreBtn.setAttribute("aria-expanded", "false");
-  }
-});
-
-applyFilters();
-
-// --- filter click handling (delegated) ---
-[filterRow, morePanel].forEach((container) => {
-  container?.addEventListener("click", (e) => {
-    const btn = (e.target as Element).closest<HTMLButtonElement>(".tag-btn");
-    if (!btn || btn === moreBtn) return;
-    handleFilterClick(btn);
-  });
-});
+document.addEventListener("astro:page-load", initGrid);
 
 // Remember the grid's history index on every navigation away from it, so the
 // artwork page's back link can do a real history traversal — ClientRouter

@@ -98,7 +98,7 @@ export function initLightbox({
         lbImg.src = a.image;
         lbImg.alt = a.title;
         lbTitle.textContent = a.title;
-        history.replaceState({}, "", a.url + filterSuffix);
+        history.replaceState(history.state, "", a.url + filterSuffix);
         updateNav();
         tintWhenReady();
     }
@@ -134,7 +134,7 @@ export function initLightbox({
             idx = openedIdx;
         }
         if (window.location.href !== openedUrl) {
-            history.replaceState({}, "", openedUrl);
+            history.replaceState(history.state, "", openedUrl);
         }
     }
 

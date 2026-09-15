@@ -203,7 +203,7 @@ document.addEventListener("astro:before-swap", (e) => {
 
 // Filter state is mirrored into the URL query, so returning to the grid via
 // history navigation restores it.
-onPageLoad(() => {
+onPageLoad((signal) => {
   const grid = document.getElementById("artwork-grid");
   if (!grid) return;
   const cards = grid.querySelectorAll<HTMLElement>(".artwork-card");
@@ -215,9 +215,6 @@ onPageLoad(() => {
   const filterLabel = moreBtn?.dataset.label ?? "Filter";
 
   let activeFilters = parseActiveFilters(window.location.search);
-
-  // document persists across transitions; scope its listener to this run.
-  const ac = new AbortController();
 
   function syncButtonState() {
     const btns =
@@ -292,7 +289,7 @@ onPageLoad(() => {
         setPanelOpen(false);
       }
     },
-    { signal: ac.signal },
+    { signal },
   );
 
   morePanel?.addEventListener("click", (e) => {
@@ -301,8 +298,6 @@ onPageLoad(() => {
   });
 
   applyFilters();
-
-  return () => ac.abort();
 });
 
 // Remember the grid's history index on every navigation away from it, so the

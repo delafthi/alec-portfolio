@@ -2,17 +2,13 @@
 // module scripts run only once per session. Component setup must therefore
 // re-run on every astro:page-load (which also fires on the initial load).
 
-/**
- * Run `init` on every astro:page-load. The cleanup returned by the previous
- * run is called before the next one, so listeners attached to the persistent
- * document (scoped via an AbortController) do not accumulate.
- */
-export function onPageLoad(init: () => undefined | (() => void)): void {
-    let teardown: (() => void) | null = null;
+/** Run `init` on every astro:page-load, aborting the previous run first. */
+export function onPageLoad(init: (signal: AbortSignal) => void): void {
+    let ac: AbortController | null = null;
     document.addEventListener("astro:page-load", () => {
-        teardown?.();
-        teardown = null;
-        teardown = init() ?? null;
+        ac?.abort();
+        ac = new AbortController();
+        init(ac.signal);
     });
 }
 

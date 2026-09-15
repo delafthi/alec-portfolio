@@ -67,21 +67,17 @@ const { artworks, detailBasePath, lang } = Astro.props;
 import { initCarousel } from "@lib/carousel";
 import { onPageLoad } from "@lib/page-load";
 
-onPageLoad(() => {
+onPageLoad((signal) => {
   const slides = Array.from(
     document.querySelectorAll<HTMLElement>(".hero-slide"),
   );
   if (!slides.length) return;
 
-  const ac = new AbortController();
-
   initCarousel({
     slides,
     dots: Array.from(document.querySelectorAll<HTMLElement>("[data-dot]")),
     title: document.getElementById("hero-title"),
-    signal: ac.signal,
+    signal,
   });
-
-  return () => ac.abort();
 });
 </script>

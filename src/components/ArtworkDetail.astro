@@ -182,15 +182,13 @@ const created = year
 
 <script>
 import { initLightbox } from "@lib/lightbox";
+import { once, onPageLoad } from "@lib/page-load";
 
 // Turn the back link into a real history traversal when the previous entry is
 // the portfolio grid (index recorded by the grid page). ClientRouter then
 // restores the scroll position natively. Falls back to a plain link for
 // direct visits. Capture phase: ClientRouter skips already-prevented clicks.
-const backNavGuard = "__alecBackNav";
-const g = globalThis as unknown as Record<string, boolean | undefined>;
-if (!g[backNavGuard]) {
-  g[backNavGuard] = true;
+once("__alecBackNav", () => {
   document.addEventListener(
     "click",
     (e) => {
@@ -203,22 +201,11 @@ if (!g[backNavGuard]) {
     },
     { capture: true },
   );
-}
+});
 
-// Bundled module scripts run only once per session while the page DOM is
-// replaced on every ClientRouter transition. Re-init on astro:page-load so
-// the fresh DOM gets its listeners back.
-let teardown: (() => void) | null = null;
-
-function initDetail() {
-  teardown?.();
-  teardown = null;
-
+onPageLoad((signal) => {
   const lightbox = document.getElementById("lightbox");
   if (!lightbox) return;
-
-  const ac = new AbortController();
-  teardown = () => ac.abort();
 
   document
     .getElementById("lb-content")
@@ -231,9 +218,7 @@ function initDetail() {
     next: document.getElementById("lb-next") as HTMLButtonElement,
     close: document.getElementById("lb-close") as HTMLElement,
     trigger: document.getElementById("detail-image") as HTMLElement,
-    signal: ac.signal,
+    signal,
   });
-}
-
-document.addEventListener("astro:page-load", initDetail);
+});
 </script>

@@ -50,6 +50,11 @@ function applyTint(img: HTMLImageElement) {
     }
 }
 
+function resetTint() {
+    document.documentElement.style.removeProperty("--color-background");
+    document.body.style.removeProperty("background-color");
+}
+
 export function initLightbox({
     lightbox,
     img: lbImg,
@@ -92,9 +97,14 @@ export function initLightbox({
     }
 
     function updateNav() {
-        lbPrev.style.visibility = idx > 0 ? "visible" : "hidden";
-        lbNext.style.visibility =
-            idx < artworks.length - 1 ? "visible" : "hidden";
+        const prevHidden = idx <= 0;
+        const nextHidden = idx >= artworks.length - 1;
+        lbPrev.style.visibility = prevHidden ? "hidden" : "visible";
+        lbNext.style.visibility = nextHidden ? "hidden" : "visible";
+        // Mirrors visibility for the focus-trap selector; inline styles are
+        // unreliable to sniff.
+        lbPrev.toggleAttribute("data-nav-hidden", prevHidden);
+        lbNext.toggleAttribute("data-nav-hidden", nextHidden);
     }
 
     function showSlide(index: number) {
@@ -126,8 +136,7 @@ export function initLightbox({
     function close() {
         lightbox.style.display = "none";
         document.body.style.overflow = "";
-        document.documentElement.style.removeProperty("--color-background");
-        document.body.style.removeProperty("background-color");
+        resetTint();
         previousFocus?.focus();
         // Land on the detail page of the last-viewed slide instead of back
         // on the page the lightbox opened from.
@@ -162,7 +171,7 @@ export function initLightbox({
                 showSlide(idx + 1);
             if (e.key === "Tab") {
                 const focusable = lightbox.querySelectorAll<HTMLElement>(
-                    'button:not([style*="visibility: hidden"])',
+                    "button:not([data-nav-hidden])",
                 );
                 const first = focusable[0];
                 const last = focusable[focusable.length - 1];
@@ -177,6 +186,10 @@ export function initLightbox({
         },
         { signal },
     );
+
+    // ClientRouter can swap the page while the lightbox is open; drop the
+    // tint along with the rest of this init's teardown.
+    signal?.addEventListener("abort", resetTint, { once: true });
 
     let touchStartX = 0;
     lightbox.addEventListener(

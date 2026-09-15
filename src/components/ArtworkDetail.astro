@@ -117,7 +117,6 @@ const created = year
   </div>
 </article>
 
-<!-- Lightbox overlay -->
 <div
   id="lightbox"
   role="dialog"
@@ -129,6 +128,7 @@ const created = year
   <button
     id="lb-prev"
     type="button"
+    data-nav-hidden
     class="absolute left-4 md:left-8 text-6xl leading-none select-none transition-opacity hover:opacity-100"
     style="color: rgba(255,255,255,0.7); top: 50%; transform: translateY(-50%); visibility: hidden;"
     aria-label="Previous"
@@ -144,6 +144,9 @@ const created = year
       id="lb-img"
       src={allArtworks[currentIndex]?.image ?? image.src}
       alt={title}
+      width={image.width}
+      height={image.height}
+      decoding="async"
       style="max-height: 85vh; max-width: 90vw; object-fit: contain;"
     >
     <p
@@ -158,6 +161,7 @@ const created = year
   <button
     id="lb-next"
     type="button"
+    data-nav-hidden
     class="absolute right-4 md:right-8 text-6xl leading-none select-none transition-opacity hover:opacity-100"
     style="color: rgba(255,255,255,0.7); top: 50%; transform: translateY(-50%); visibility: hidden;"
     aria-label="Next"

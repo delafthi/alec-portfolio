@@ -36,10 +36,11 @@
       "**/*.mjs",
       "!.astro",
       "!.direnv",
+      "!.netlify",
       "!.rumdl_cache",
+      "!.unlighthouse",
       "!dist",
-      "!node_modules",
-      "!.netlify"
+      "!node_modules"
     ]
   },
   "overrides": [

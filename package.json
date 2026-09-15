@@ -7,6 +7,7 @@
     "preview": "astro preview",
     "fmt": "nix fmt",
     "check": "astro check && biome check .",
+    "audit:site": "astro build && start-server-and-test 'serve -l 4321 dist' http://localhost:4321 'unlighthouse-ci --site http://localhost:4321'",
     "new-artwork": "node scripts/new-artwork.mjs",
     "new-exhibition": "node scripts/new-exhibition.mjs"
   },
@@ -20,8 +21,11 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4.3.3",
+    "serve": "^14.2.6",
+    "start-server-and-test": "^3.0.12",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "unlighthouse": "^0.18.0"
   },
   "packageManager": "pnpm@11.18.0"
 }

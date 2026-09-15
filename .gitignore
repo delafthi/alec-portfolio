@@ -15,3 +15,7 @@ dist/
 
 # Local Netlify folder
 .netlify
+
+# Unlighthouse output dir
+.unlighthouse
+

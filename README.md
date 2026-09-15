@@ -100,6 +100,16 @@ pnpm fmt      # biome + rumdl + nixfmt + statix + typos + actionlint + tombi
 pnpm check    # astro check + biome check
 ```
 
+## Auditing
+
+```sh
+pnpm audit:site   # build, serve dist/, run Lighthouse on every page (Unlighthouse)
+```
+
+Writes a report to `.unlighthouse/ci-result.json`. Runs against the plain
+static build, so images served via the Netlify Image CDN 404 locally and
+performance scores skew low; accessibility/SEO/best-practices are unaffected.
+
 ## License
 
 Source code is licensed under the MIT License (see [LICENSE](LICENSE)).

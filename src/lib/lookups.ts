@@ -6,7 +6,10 @@ import materialGroupSchema from "../content/lookups/material-groups.schema.json"
 import materials from "../content/lookups/materials.json";
 import materialsSchema from "../content/lookups/materials.schema.json";
 
-export const MATERIAL_KEYS = [
+// Values derive from the JSON data (single source). resolveJsonModule widens
+// imported strings to `string`, so one literal cast per enum recovers the
+// union type; the tuple shape satisfies z.enum.
+export const MATERIAL_KEYS = materials.materials.map((m) => m.key) as [
     "oil_canvas",
     "oil_canvas_knife",
     "oil_linen",
@@ -24,39 +27,28 @@ export const MATERIAL_KEYS = [
     "pastel_chalk_notebook",
     "pastel_ink",
     "watercolour",
-] as const;
+];
 export type MaterialKey = (typeof MATERIAL_KEYS)[number];
 
-export const MATERIAL_GROUP_KEYS = [
+export const MATERIAL_GROUP_KEYS = materialGroups.materialGroups.map(
+    (g) => g.key,
+) as [
     "oil",
     "acrylic",
     "pastel",
     "charcoal",
     "pencil",
     "watercolour",
+    "other",
     "smithing",
     "pottery",
-    "other",
-] as const;
+];
 export type MaterialGroup = (typeof MATERIAL_GROUP_KEYS)[number];
 
-export const AVAILABILITY_KEYS = ["available", "not_available"] as const;
+export const AVAILABILITY_KEYS = availability.availability.map(
+    (a) => a.key,
+) as ["available", "not_available"];
 export type AvailabilityKey = (typeof AVAILABILITY_KEYS)[number];
-
-function assertKeySets(
-    label: string,
-    expected: readonly string[],
-    actual: readonly { key: string }[],
-): void {
-    const actualKeys = new Set(actual.map((x) => x.key));
-    const missing = expected.filter((k) => !actualKeys.has(k));
-    const extra = actual.map((x) => x.key).filter((k) => !expected.includes(k));
-    if (missing.length || extra.length) {
-        throw new Error(
-            `[content/lookups] ${label}: missing ${missing.join(", ")}, unexpected ${extra.join(", ")}`,
-        );
-    }
-}
 
 export function assertSameEnum(
     label: string,
@@ -72,14 +64,7 @@ export function assertSameEnum(
     }
 }
 
-assertKeySets("materials", MATERIAL_KEYS, materials.materials);
-assertKeySets(
-    "materialGroups",
-    MATERIAL_GROUP_KEYS,
-    materialGroups.materialGroups,
-);
-assertKeySets("availability", AVAILABILITY_KEYS, availability.availability);
-
+// Guard the .schema.json editor hints against drift from the data files.
 assertSameEnum(
     "materials.schema.json materialKey",
     materialsSchema.$defs.materialKey.enum,

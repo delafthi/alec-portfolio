@@ -169,12 +169,7 @@ import {
   matchesActiveFilters,
   parseActiveFilters,
 } from "@lib/filters";
-
-// Bundled module scripts run only once per session while the grid DOM is
-// replaced on every ClientRouter transition. Re-init on astro:page-load so
-// the fresh DOM gets its listeners back. Filter state is mirrored into the
-// URL query, so returning to the grid via history navigation restores it.
-let teardown: (() => void) | null = null;
+import { once, onPageLoad } from "@lib/page-load";
 
 function filterCards(cards: NodeListOf<HTMLElement>, f: ActiveFilters) {
   cards.forEach((c) => {
@@ -206,9 +201,9 @@ document.addEventListener("astro:before-swap", (e) => {
     );
 });
 
-function initGrid() {
-  teardown?.();
-
+// Filter state is mirrored into the URL query, so returning to the grid via
+// history navigation restores it.
+onPageLoad(() => {
   const grid = document.getElementById("artwork-grid");
   if (!grid) return;
   const cards = grid.querySelectorAll<HTMLElement>(".artwork-card");
@@ -221,9 +216,8 @@ function initGrid() {
 
   let activeFilters = parseActiveFilters(window.location.search);
 
-  // document persists across transitions; scope its listener to this init.
+  // document persists across transitions; scope its listener to this run.
   const ac = new AbortController();
-  teardown = () => ac.abort();
 
   function syncButtonState() {
     const btns =
@@ -288,7 +282,6 @@ function initGrid() {
     setPanelOpen(morePanel?.style.display === "none"),
   );
 
-  // close panel when clicking outside
   document.addEventListener(
     "click",
     (e) => {
@@ -302,31 +295,25 @@ function initGrid() {
     { signal: ac.signal },
   );
 
-  // filter clicks, delegated: all filter buttons live in the panel
   morePanel?.addEventListener("click", (e) => {
     const btn = (e.target as Element).closest<HTMLButtonElement>(".tag-btn");
     if (btn) handleFilterClick(btn);
   });
 
   applyFilters();
-}
 
-document.addEventListener("astro:page-load", initGrid);
+  return () => ac.abort();
+});
 
 // Remember the grid's history index on every navigation away from it, so the
 // artwork page's back link can do a real history traversal — ClientRouter
-// restores the scroll position natively for history entries. Document-level
-// listener with a guard: bundled scripts run only once per session while the
-// grid DOM is replaced on every transition.
-const gridNavGuard = "__alecGridNav";
-const g = globalThis as unknown as Record<string, boolean | undefined>;
-if (!g[gridNavGuard]) {
-  g[gridNavGuard] = true;
+// restores the scroll position natively for history entries.
+once("__alecGridNav", () => {
   document.addEventListener("astro:before-preparation", (e) => {
     const from = (e as { from: URL }).from;
     if (/\/portfolio\/?$/.test(from.pathname)) {
       sessionStorage.setItem("alec:grid-index", String(history.state?.index));
     }
   });
-}
+});
 </script>

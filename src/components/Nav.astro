@@ -120,12 +120,15 @@ const langToggleUrl =
 </div>
 
 <script>
-const toggle = document.getElementById("nav-toggle") as HTMLElement;
-const drawer = document.getElementById("nav-drawer") as HTMLElement;
+document.addEventListener("astro:page-load", () => {
+  const toggle = document.getElementById("nav-toggle") as HTMLElement;
+  const drawer = document.getElementById("nav-drawer") as HTMLElement;
+  if (!toggle || !drawer) return;
 
-toggle.addEventListener("click", () => {
-  const opening = drawer.style.display === "none";
-  drawer.style.display = opening ? "flex" : "none";
-  toggle.setAttribute("aria-expanded", String(opening));
+  toggle.addEventListener("click", () => {
+    const opening = drawer.style.display === "none";
+    drawer.style.display = opening ? "flex" : "none";
+    toggle.setAttribute("aria-expanded", String(opening));
+  });
 });
 </script>

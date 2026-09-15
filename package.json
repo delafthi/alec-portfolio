@@ -11,13 +11,15 @@
     "new-exhibition": "node scripts/new-exhibition.mjs"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.10",
     "@astrojs/netlify": "^6.6.5",
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/cormorant-garamond": "^5.3.0",
     "@fontsource-variable/inter": "^5.3.0",
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^5.18.2",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   },

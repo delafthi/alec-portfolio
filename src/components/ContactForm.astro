@@ -86,19 +86,24 @@ const successPage = `${getRelativeLocaleUrl(lang, "/contact-thanks")}/`;
 </div>
 
 <script>
-const form = document.querySelector<HTMLFormElement>("form[name='contact']");
-const artwork = new URLSearchParams(window.location.search).get("artwork");
+// Bundled module scripts run only once per session while the page DOM is
+// replaced on every ClientRouter transition. Re-run on astro:page-load so
+// the fresh form gets its values when navigating with ?artwork= on soft nav.
+document.addEventListener("astro:page-load", () => {
+  const form = document.querySelector<HTMLFormElement>("form[name='contact']");
+  const artwork = new URLSearchParams(window.location.search).get("artwork");
 
-if (form && artwork) {
-  const artworkField = form.querySelector<HTMLInputElement>(
-    "input[name='artwork']",
-  );
-  if (artworkField) artworkField.value = artwork;
+  if (form && artwork) {
+    const artworkField = form.querySelector<HTMLInputElement>(
+      "input[name='artwork']",
+    );
+    if (artworkField) artworkField.value = artwork;
 
-  const message = form.querySelector<HTMLTextAreaElement>("#message");
-  const template = form.dataset.interestTemplate;
-  if (message && !message.value && template) {
-    message.value = template.replace("{artwork}", artwork);
+    const message = form.querySelector<HTMLTextAreaElement>("#message");
+    const template = form.dataset.interestTemplate;
+    if (message && !message.value && template) {
+      message.value = template.replace("{artwork}", artwork);
+    }
   }
-}
+});
 </script>

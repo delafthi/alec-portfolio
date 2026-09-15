@@ -49,15 +49,20 @@ const { artworks, detailBasePath, lang } = Astro.props;
     {artworks[0]?.data.title[lang] ?? ""}
   </p>
   {artworks.length > 1 && (
-      <div class="flex gap-2" id="hero-dots">
+      <div class="flex gap-1" id="hero-dots">
         {artworks.map((artwork, i) => (
           <button
             type="button"
             data-dot={i}
-            class="w-1.5 h-1.5 rounded-full transition-opacity duration-300"
-            style={`background: var(--color-accent); opacity: ${i === 0 ? 1 : 0.35};`}
+            class="flex items-center justify-center w-6 h-6 transition-opacity duration-300"
+            style={`opacity: ${i === 0 ? 1 : 0.35};`}
             aria-label={artwork.data.title[lang]}
-          />
+          >
+            <span
+              class="block w-1.5 h-1.5 rounded-full"
+              style="background: var(--color-accent);"
+            />
+          </button>
         ))}
       </div>
     )}

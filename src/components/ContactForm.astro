@@ -86,10 +86,10 @@ const successPage = `${getRelativeLocaleUrl(lang, "/contact-thanks")}/`;
 </div>
 
 <script>
-// Bundled module scripts run only once per session while the page DOM is
-// replaced on every ClientRouter transition. Re-run on astro:page-load so
-// the fresh form gets its values when navigating with ?artwork= on soft nav.
-document.addEventListener("astro:page-load", () => {
+import { onPageLoad } from "@lib/page-load";
+
+// Re-fill the fresh form when soft-navigating with ?artwork=.
+onPageLoad(() => {
   const form = document.querySelector<HTMLFormElement>("form[name='contact']");
   const artwork = new URLSearchParams(window.location.search).get("artwork");
 

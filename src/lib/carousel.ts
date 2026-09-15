@@ -2,9 +2,16 @@ export interface CarouselElements {
     slides: HTMLElement[];
     dots: HTMLElement[];
     title: HTMLElement | null;
+    /** AbortSignal to remove listeners and stop the timer on teardown. */
+    signal?: AbortSignal;
 }
 
-export function initCarousel({ slides, dots, title }: CarouselElements): void {
+export function initCarousel({
+    slides,
+    dots,
+    title,
+    signal,
+}: CarouselElements): void {
     if (!slides.length) return;
 
     let current = 0;
@@ -40,17 +47,26 @@ export function initCarousel({ slides, dots, title }: CarouselElements): void {
     }
 
     resetTimer();
+    signal?.addEventListener("abort", () => clearInterval(timer));
 
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden) clearInterval(timer);
-        else resetTimer();
-    });
+    document.addEventListener(
+        "visibilitychange",
+        () => {
+            if (document.hidden) clearInterval(timer);
+            else resetTimer();
+        },
+        { signal },
+    );
 
     dots.forEach((dot) => {
-        dot.addEventListener("click", () => {
-            goTo(Number(dot.dataset.dot));
-            resetTimer();
-        });
+        dot.addEventListener(
+            "click",
+            () => {
+                goTo(Number(dot.dataset.dot));
+                resetTimer();
+            },
+            { signal },
+        );
     });
 
     let touchStartX = 0;
@@ -61,14 +77,18 @@ export function initCarousel({ slides, dots, title }: CarouselElements): void {
             (e) => {
                 touchStartX = e.touches[0].clientX;
             },
-            { passive: true },
+            { passive: true, signal },
         );
-        container.addEventListener("touchend", (e) => {
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(dx) < 40) return;
-            if (dx < 0) goTo((current + 1) % slides.length);
-            else goTo((current - 1 + slides.length) % slides.length);
-            resetTimer();
-        });
+        container.addEventListener(
+            "touchend",
+            (e) => {
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                if (Math.abs(dx) < 40) return;
+                if (dx < 0) goTo((current + 1) % slides.length);
+                else goTo((current - 1 + slides.length) % slides.length);
+                resetTimer();
+            },
+            { signal },
+        );
     }
 }

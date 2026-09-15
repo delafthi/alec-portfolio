@@ -1,7 +1,9 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { ClientRouter } from "astro:transitions";
 import InstagramIcon from "@components/InstagramIcon.astro";
 import Nav from "@components/Nav.astro";
+import { LANGS } from "@i18n/ui";
 import "../styles/global.css";
 
 interface Props {
@@ -23,6 +25,21 @@ const {
 } = Astro.props;
 const fullTitle = `${title} — ALEC`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const otherLang = lang === "de" ? "en" : "de";
+// Pages may pass an explicit altLangUrl; otherwise derive it from the current
+// path, since all localized routes exist under both locale prefixes.
+const localePrefixRe = new RegExp(`^/(?:${LANGS.join("|")})(?:/|$)`);
+const altPath =
+  altLangUrl ??
+  (localePrefixRe.test(Astro.url.pathname)
+    ? getRelativeLocaleUrl(otherLang, Astro.url.pathname.slice(3))
+    : undefined);
+// getRelativeLocaleUrl drops the trailing slash; canonical keeps it. Align
+// the hreflang targets with the canonical form.
+const altUrl = altPath
+  ? new URL(altPath.endsWith("/") ? altPath : `${altPath}/`, Astro.site)
+  : undefined;
+const enUrl = lang === "en" ? canonicalUrl : altUrl;
 ---
 
 <!doctype html>
@@ -34,6 +51,9 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description}>
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonicalUrl}>
+    <link rel="alternate" hreflang={lang} href={canonicalUrl}>
+    {altUrl && <link rel="alternate" hreflang={otherLang} href={altUrl} />}
+    {enUrl && <link rel="alternate" hreflang="x-default" href={enUrl} />}
     <meta property="og:title" content={fullTitle}>
     <meta property="og:description" content={description}>
     <meta property="og:type" content="website">
@@ -46,10 +66,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
   <body class="min-h-screen">
     <Nav lang={lang} altLangUrl={altLangUrl} />
     <main class="mx-auto w-full max-w-7xl"><slot /></main>
-    <footer
-      class="py-8 px-6 text-center text-sm"
-      style="color: var(--color-accent); border-top: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);"
-    >
+    <footer class="py-8 px-6 text-center text-sm text-accent">
       <p class="mb-2">
         <a
           href="https://instagram.com/alec250661"
@@ -68,3 +85,9 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     </footer>
   </body>
 </html>
+
+<style>
+footer {
+  border-top: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+</style>

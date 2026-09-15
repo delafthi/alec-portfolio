@@ -27,13 +27,9 @@ const t = ui[lang];
       title
     )}
     {juried && (
-      <span class="ml-2 text-sm font-normal" style="color: var(--color-accent);">
-        ({t.juried})
-      </span>
+      <span class="ml-2 text-sm font-normal text-accent">({t.juried})</span>
     )}
   </h3>
-  <p class="text-sm font-medium" style="color: var(--color-accent);">
-    {location}
-  </p>
+  <p class="text-sm font-medium text-accent">{location}</p>
   <p class="text-sm">{formatDateRange(startDate, endDate, lang)}</p>
 </li>

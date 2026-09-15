@@ -6,21 +6,17 @@ import BaseLayout from "@layouts/BaseLayout.astro";
   <div class="flex flex-col items-center justify-center px-6 py-32 text-center">
     <h1 class="text-7xl font-light mb-6">404</h1>
     <p class="text-lg mb-2">This page was not found.</p>
-    <p class="text-lg mb-8" style="color: var(--color-accent);">
-      Diese Seite wurde nicht gefunden.
-    </p>
+    <p class="text-lg mb-8 text-accent">Diese Seite wurde nicht gefunden.</p>
     <div class="flex gap-4">
       <a
         href="/"
-        class="px-6 py-2 text-sm transition-opacity hover:opacity-70"
-        style="background: var(--color-foreground); color: var(--color-background);"
+        class="px-6 py-2 text-sm transition-opacity hover:opacity-70 bg-foreground text-background"
       >
         Home
       </a>
       <a
         href="/de/"
-        class="px-6 py-2 text-sm transition-opacity hover:opacity-70"
-        style="background: var(--color-foreground); color: var(--color-background);"
+        class="px-6 py-2 text-sm transition-opacity hover:opacity-70 bg-foreground text-background"
       >
         Startseite
       </a>

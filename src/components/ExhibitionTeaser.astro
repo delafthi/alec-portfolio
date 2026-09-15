@@ -25,13 +25,13 @@ const { upcoming } = splitExhibitions(exhibitions);
     <ul class="flex flex-col gap-6 max-w-2xl">
       {upcoming.map((ex) => (
         <li class="flex flex-col gap-1">
-          <p class="text-xl font-light" style="font-family: var(--font-heading);">
+          <p class="text-xl font-light font-heading">
             {ex.data.title}
             {ex.data.juried && (
-              <span class="text-sm" style="color: var(--color-accent);">({t.juried})</span>
+              <span class="text-sm text-accent">({t.juried})</span>
             )}
           </p>
-          <p class="text-sm" style="color: var(--color-accent);">{ex.data.location}</p>
+          <p class="text-sm text-accent">{ex.data.location}</p>
           <p class="text-sm">
             {formatDateRange(ex.data.startDate, ex.data.endDate, lang)}
           </p>
@@ -40,8 +40,7 @@ const { upcoming } = splitExhibitions(exhibitions);
     </ul>
     <a
       href={exhibitionsPath}
-      class="inline-block mt-8 text-sm underline underline-offset-4 hover:opacity-70 transition-opacity"
-      style="color: var(--color-accent);"
+      class="inline-block mt-8 text-sm underline underline-offset-4 hover:opacity-70 transition-opacity text-accent"
     >
       {t.upcoming}
       →

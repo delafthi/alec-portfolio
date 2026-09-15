@@ -49,7 +49,7 @@ const ratio = image.width / image.height;
       class="absolute inset-0 flex flex-col justify-end p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100"
       style="background: linear-gradient(to top, rgba(26,26,24,0.75) 0%, transparent 60%);"
     >
-      <h3 class="text-white text-lg font-light">{title}</h3>
+      <h2 class="text-white text-lg font-light">{title}</h2>
       {availability === "available" && (
           <span class="text-xs text-white/80 mt-1">{getAvailabilityLabel(availability, lang)}</span>
         )}

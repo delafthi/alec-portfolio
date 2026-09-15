@@ -7,6 +7,7 @@ export default defineConfig({
     site: "https://alecs.pictures",
     adapter: netlify(),
     prefetch: { defaultStrategy: "hover" },
+    build: { inlineStylesheets: "always" },
     i18n: {
         locales: ["de", "en"],
         defaultLocale: "en",

@@ -66,9 +66,30 @@ const { artworks, detailBasePath, lang } = Astro.props;
 <script>
 import { initCarousel } from "@lib/carousel";
 
-initCarousel({
-  slides: Array.from(document.querySelectorAll<HTMLElement>(".hero-slide")),
-  dots: Array.from(document.querySelectorAll<HTMLElement>("[data-dot]")),
-  title: document.getElementById("hero-title"),
-});
+// Bundled module scripts run only once per session while the page DOM is
+// replaced on every ClientRouter transition. Re-init on astro:page-load so
+// the fresh DOM gets its listeners back.
+let teardown: (() => void) | null = null;
+
+function initHero() {
+  teardown?.();
+  teardown = null;
+
+  const slides = Array.from(
+    document.querySelectorAll<HTMLElement>(".hero-slide"),
+  );
+  if (!slides.length) return;
+
+  const ac = new AbortController();
+  teardown = () => ac.abort();
+
+  initCarousel({
+    slides,
+    dots: Array.from(document.querySelectorAll<HTMLElement>("[data-dot]")),
+    title: document.getElementById("hero-title"),
+    signal: ac.signal,
+  });
+}
+
+document.addEventListener("astro:page-load", initHero);
 </script>

@@ -33,6 +33,7 @@ const { artworks, detailBasePath, lang } = Astro.props;
             widths={[...[800, 1400, 1920].filter((w) => w < artwork.data.image.width), artwork.data.image.width]}
             sizes="100vw"
             loading={i === 0 ? "eager" : "lazy"}
+            fetchpriority={i === 0 ? "high" : "auto"}
             class="w-full h-full object-contain"
           />
         </a>

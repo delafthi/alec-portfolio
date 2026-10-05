@@ -51,8 +51,10 @@ const ratio = image.width / image.height;
     >
       <h2 class="text-white text-lg font-light">{title}</h2>
       {availability === "available" && (
-          <span class="text-xs text-white/80 mt-1">{getAvailabilityLabel(availability, lang)}</span>
-        )}
+        <span class="text-xs text-white/80 mt-1">
+          {getAvailabilityLabel(availability, lang)}
+        </span>
+      )}
     </div>
   </a>
 </article>

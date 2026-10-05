@@ -29,66 +29,111 @@ const hasFilters =
 ---
 
 {hasFilters && (
-    <div class="relative mb-8 flex justify-center">
-      <div class="flex flex-nowrap gap-2 justify-center items-center w-full" id="tag-filters">
-        <button
-          id="more-filters-btn"
-          type="button"
-          class="tag-btn more-btn flex-none"
-          aria-expanded="false"
-          data-label={t.label}
-        >{t.label}</button>
-      </div>
-      <div id="more-filters-panel" class="more-panel" style="display:none" aria-hidden="true">
-        <button type="button" class="tag-btn active flex-none" data-filter="all" data-filter-type="all">
-          {t.all}
-        </button>
-        {visibleTags.length > 0 && (
-          <>
-            <span class="filter-divider flex-none" aria-hidden="true" data-divider />
-            {visibleTags.map((tag) => (
-              <button type="button" class="tag-btn flex-none" data-filter={tag.id} data-filter-type="tag" data-group="tag">
-                {tag.data.label[lang]}
-              </button>
-            ))}
-          </>
-        )}
-        {visibleGroups.length > 0 && (
-          <>
-            <span class="filter-divider flex-none" aria-hidden="true" data-divider />
-            {visibleGroups.map((group) => (
-              <button type="button" class="tag-btn flex-none" data-filter={group} data-filter-type="material" data-group="material">
-                {MATERIAL_GROUP_LABELS[group][lang]}
-              </button>
-            ))}
-          </>
-        )}
-        {visibleAvailability.length > 0 && (
-          <>
-            <span class="filter-divider flex-none" aria-hidden="true" data-divider />
-            {visibleAvailability.map((key) => (
-              <button type="button" class="tag-btn flex-none" data-filter={key} data-filter-type="availability" data-group="availability">
-                {AVAILABILITY_LABELS[key][lang]}
-              </button>
-            ))}
-          </>
-        )}
-      </div>
+  <div class="relative mb-8 flex justify-center">
+    <div
+      class="flex flex-nowrap gap-2 justify-center items-center w-full"
+      id="tag-filters"
+    >
+      <button
+        id="more-filters-btn"
+        type="button"
+        class="tag-btn more-btn flex-none"
+        aria-expanded="false"
+        data-label={t.label}
+      >
+        {t.label}
+      </button>
     </div>
-  )}
+    <div
+      id="more-filters-panel"
+      class="more-panel"
+      style="display:none"
+      aria-hidden="true"
+    >
+      <button
+        type="button"
+        class="tag-btn active flex-none"
+        data-filter="all"
+        data-filter-type="all"
+      >
+        {t.all}
+      </button>
+      {visibleTags.length > 0 && (
+        <>
+          <span
+            class="filter-divider flex-none"
+            aria-hidden="true"
+            data-divider
+          />
+          {visibleTags.map((tag) => (
+            <button
+              type="button"
+              class="tag-btn flex-none"
+              data-filter={tag.id}
+              data-filter-type="tag"
+              data-group="tag"
+            >
+              {tag.data.label[lang]}
+            </button>
+          ))}
+        </>
+      )}
+      {visibleGroups.length > 0 && (
+        <>
+          <span
+            class="filter-divider flex-none"
+            aria-hidden="true"
+            data-divider
+          />
+          {visibleGroups.map((group) => (
+            <button
+              type="button"
+              class="tag-btn flex-none"
+              data-filter={group}
+              data-filter-type="material"
+              data-group="material"
+            >
+              {MATERIAL_GROUP_LABELS[group][lang]}
+            </button>
+          ))}
+        </>
+      )}
+      {visibleAvailability.length > 0 && (
+        <>
+          <span
+            class="filter-divider flex-none"
+            aria-hidden="true"
+            data-divider
+          />
+          {visibleAvailability.map((key) => (
+            <button
+              type="button"
+              class="tag-btn flex-none"
+              data-filter={key}
+              data-filter-type="availability"
+              data-group="availability"
+            >
+              {AVAILABILITY_LABELS[key][lang]}
+            </button>
+          ))}
+        </>
+      )}
+    </div>
+  </div>
+)}
 
 <div class="flex flex-wrap items-center gap-2" id="artwork-grid">
   {artworks.map((artwork) => (
-      <ArtworkCard
-        title={artwork.data.title[lang]}
-        image={artwork.data.image}
-        availability={artwork.data.availability}
-        lang={lang}
-        detailPath={`${detailBasePath}/${artwork.id}/`}
-        tags={artwork.data.tags ?? []}
-        materialGroup={MATERIAL_GROUP_MAP[artwork.data.materials]}
-      />
-    ))}
+    <ArtworkCard
+      title={artwork.data.title[lang]}
+      image={artwork.data.image}
+      availability={artwork.data.availability}
+      lang={lang}
+      detailPath={`${detailBasePath}/${artwork.id}/`}
+      tags={artwork.data.tags ?? []}
+      materialGroup={MATERIAL_GROUP_MAP[artwork.data.materials]}
+    />
+  ))}
   <div class="grow-[10]" aria-hidden="true"></div>
 </div>
 

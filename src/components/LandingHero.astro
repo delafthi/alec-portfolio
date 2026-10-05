@@ -17,28 +17,31 @@ const { artworks, detailBasePath, lang } = Astro.props;
   style="height: 85vh; background: var(--color-background);"
 >
   {artworks.map((artwork, i) => {
-      const title = artwork.data.title[lang];
-      return (
-        <a
-          href={`${detailBasePath}/${artwork.id}/`}
-          class="hero-slide absolute inset-0"
-          style={`opacity: ${i === 0 ? 1 : 0}; transition: opacity 1.2s ease; pointer-events: ${i === 0 ? "auto" : "none"};`}
-          data-index={i}
-          data-title={title}
-          tabindex={i === 0 ? 0 : -1}
-        >
-          <Image
-            src={artwork.data.image}
-            alt={title}
-            widths={[...[800, 1400, 1920].filter((w) => w < artwork.data.image.width), artwork.data.image.width]}
-            sizes="100vw"
-            loading={i === 0 ? "eager" : "lazy"}
-            fetchpriority={i === 0 ? "high" : "auto"}
-            class="w-full h-full object-contain"
-          />
-        </a>
-      );
-    })}
+    const title = artwork.data.title[lang];
+    return (
+      <a
+        href={`${detailBasePath}/${artwork.id}/`}
+        class="hero-slide absolute inset-0"
+        style={`opacity: ${i === 0 ? 1 : 0}; transition: opacity 1.2s ease; pointer-events: ${i === 0 ? "auto" : "none"};`}
+        data-index={i}
+        data-title={title}
+        tabindex={i === 0 ? 0 : -1}
+      >
+        <Image
+          src={artwork.data.image}
+          alt={title}
+          widths={[
+            ...[800, 1400, 1920].filter((w) => w < artwork.data.image.width),
+            artwork.data.image.width,
+          ]}
+          sizes="100vw"
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchpriority={i === 0 ? "high" : "auto"}
+          class="w-full h-full object-contain"
+        />
+      </a>
+    );
+  })}
 </div>
 
 <div class="flex flex-col items-center justify-center gap-3 px-8 py-4">
@@ -50,23 +53,23 @@ const { artworks, detailBasePath, lang } = Astro.props;
     {artworks[0]?.data.title[lang] ?? ""}
   </p>
   {artworks.length > 1 && (
-      <div class="flex gap-1" id="hero-dots">
-        {artworks.map((artwork, i) => (
-          <button
-            type="button"
-            data-dot={i}
-            class="flex items-center justify-center w-6 h-6 transition-opacity duration-300"
-            style={`opacity: ${i === 0 ? 1 : 0.35};`}
-            aria-label={artwork.data.title[lang]}
-          >
-            <span
-              class="block w-1.5 h-1.5 rounded-full"
-              style="background: var(--color-accent);"
-            />
-          </button>
-        ))}
-      </div>
-    )}
+    <div class="flex gap-1" id="hero-dots">
+      {artworks.map((artwork, i) => (
+        <button
+          type="button"
+          data-dot={i}
+          class="flex items-center justify-center w-6 h-6 transition-opacity duration-300"
+          style={`opacity: ${i === 0 ? 1 : 0.35};`}
+          aria-label={artwork.data.title[lang]}
+        >
+          <span
+            class="block w-1.5 h-1.5 rounded-full"
+            style="background: var(--color-accent);"
+          />
+        </button>
+      ))}
+    </div>
+  )}
 </div>
 
 <script>

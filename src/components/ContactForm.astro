@@ -79,8 +79,10 @@ const successPage = `${getRelativeLocaleUrl(lang, "/contact-thanks")}/`;
       class="mt-10 pt-6 text-sm text-center"
       style="border-top: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent); color: var(--color-accent);"
     >
-      {t.email_direct}{' '}
-      <a href={`mailto:${email}`} class="hover:opacity-70 transition-opacity">{email}</a>
+      {t.email_direct}{" "}
+      <a href={`mailto:${email}`} class="hover:opacity-70 transition-opacity">
+        {email}
+      </a>
     </p>
   )}
 </div>

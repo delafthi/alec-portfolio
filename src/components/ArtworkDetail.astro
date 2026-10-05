@@ -71,7 +71,10 @@ const created = year
       id="detail-image"
       src={image}
       alt={title}
-      widths={[image.width, ...[640, 1024, 1500, 2000].filter((w) => w < image.width)]}
+      widths={[
+        image.width,
+        ...[640, 1024, 1500, 2000].filter((w) => w < image.width),
+      ]}
       sizes="(max-width: 1024px) 100vw, 62vw"
       loading="eager"
       fetchpriority="high"
@@ -83,22 +86,34 @@ const created = year
     <h1 class="text-4xl font-light">{title}</h1>
 
     <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-      {created && <>
-        <dt class="font-medium" style="color: var(--color-accent);">{t.year}</dt>
-        <dd>{created}</dd>
-      </>}
-      {size && <>
-        <dt class="font-medium" style="color: var(--color-accent);">{t.size}</dt>
-        <dd>{size}</dd>
-      </>}
+      {created && (
+        <>
+          <dt class="font-medium" style="color: var(--color-accent);">
+            {t.year}
+          </dt>
+          <dd>{created}</dd>
+        </>
+      )}
+      {size && (
+        <>
+          <dt class="font-medium" style="color: var(--color-accent);">
+            {t.size}
+          </dt>
+          <dd>{size}</dd>
+        </>
+      )}
       <dt class="font-medium" style="color: var(--color-accent);">
         {t.materials}
       </dt>
       <dd>{materialsLabel}</dd>
-      {notes && <>
-        <dt class="font-medium" style="color: var(--color-accent);">{t.notes}</dt>
-        <dd class="notes" set:html={renderInlineLinks(notes)} />
-      </>}
+      {notes && (
+        <>
+          <dt class="font-medium" style="color: var(--color-accent);">
+            {t.notes}
+          </dt>
+          <dd class="notes" set:html={renderInlineLinks(notes)} />
+        </>
+      )}
       <dt class="font-medium" style="color: var(--color-accent);">
         {t.availability}
       </dt>

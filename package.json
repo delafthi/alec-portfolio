@@ -22,7 +22,7 @@
     "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4.3.3",
     "serve": "^14.2.6",
-    "start-server-and-test": "^3.0.12",
+    "start-server-and-test": "^3.0.13",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "unlighthouse": "^0.18.2"

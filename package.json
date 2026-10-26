@@ -19,7 +19,7 @@
     "astro": "^5.18.2"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
+    "@astrojs/check": "^0.9.12",
     "@tailwindcss/vite": "^4.3.3",
     "serve": "^14.2.6",
     "start-server-and-test": "^3.0.13",

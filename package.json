@@ -20,10 +20,10 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "@tailwindcss/vite": "^4.3.3",
-    "serve": "^14.2.6",
+    "@tailwindcss/vite": "^4.3.5",
+    "serve": "^14.2.7",
     "start-server-and-test": "^3.0.13",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.5",
     "typescript": "^6.0.3",
     "unlighthouse": "^0.18.2"
   },

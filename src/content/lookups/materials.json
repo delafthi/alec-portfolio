@@ -98,6 +98,14 @@
       }
     },
     {
+      "key": "chalk_charcoal_half_cardboard",
+      "group": "charcoal",
+      "label": {
+        "en": "Chalk and charcoal on half cardboard",
+        "de": "Kreide und Kohle auf Halbkarton"
+      }
+    },
+    {
       "key": "pastel_photo",
       "group": "pastel",
       "label": {

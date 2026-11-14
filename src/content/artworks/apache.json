@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Apache",
+    "en": "Apache"
+  },
+  "year": 2026,
+  "month": 10,
+  "size": "70 × 50 cm",
+  "materials": "pastel_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/apache.jpg",
+  "featured": false,
+  "tags": ["animals"]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Arvenzapfen",
+    "en": "Stone pine cones"
+  },
+  "year": 2026,
+  "month": 11,
+  "size": "A5",
+  "materials": "pencil_notebook",
+  "availability": "not_available",
+  "image": "../../assets/artworks/arvenzapfen.jpg",
+  "featured": false,
+  "tags": ["sketch", "nature"]
+}

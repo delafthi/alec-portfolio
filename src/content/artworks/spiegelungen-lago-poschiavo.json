@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Spiegelungen Lago Poschiavo",
+    "en": "Reflections on Lake Poschiavo"
+  },
+  "year": 2026,
+  "month": 10,
+  "size": "50 × 70 cm",
+  "materials": "chalk_charcoal_photo",
+  "availability": "available",
+  "image": "../../assets/artworks/spiegelungen-lago-poschiavo.jpg",
+  "featured": false,
+  "tags": ["nature"]
+}

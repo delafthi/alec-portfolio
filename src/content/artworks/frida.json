@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Frida",
+    "en": "Frida"
+  },
+  "year": 2026,
+  "month": 11,
+  "size": "58 × 100 cm",
+  "materials": "chalk_charcoal_half_cardboard",
+  "availability": "available",
+  "image": "../../assets/artworks/frida.jpg",
+  "featured": false,
+  "tags": ["portrait"]
+}

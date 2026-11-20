@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Alter Elefant",
+    "en": "Old elephant"
+  },
+  "year": 2026,
+  "month": 11,
+  "size": "A5",
+  "materials": "pencil_notebook",
+  "availability": "not_available",
+  "image": "../../assets/artworks/alter-elefant.jpg",
+  "featured": false,
+  "tags": ["animals", "sketch"]
+}

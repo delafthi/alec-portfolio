@@ -1,0 +1,19 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "title": {
+    "de": "Stazer Wald",
+    "en": "Stazer Forest"
+  },
+  "year": 2026,
+  "month": 10,
+  "size": "140 × 90 cm",
+  "materials": "acrylic_linen_knife",
+  "availability": "available",
+  "image": "../../assets/artworks/stazer-wald.jpg",
+  "featured": false,
+  "notes": {
+    "de": "Gemeinschaftswerk mit Iris",
+    "en": "Joint work with Iris"
+  },
+  "tags": ["nature"]
+}
